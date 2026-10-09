@@ -1,40 +1,209 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- displays site properly based on user's device -->
 
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="./images/favicon-32x32.png"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color"
+    content="#1a2a33" />
+  <link rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="./images/favicon-32x32.png" />
+  <link rel="stylesheet"
+    href="./css/style.css" />
+  <title>Frontend Mentor | Tic Tac Toe</title>
+</head>
 
-    <title> </title>
-    <link rel="stylesheet" href="./css/style.css" />
-    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-    <style>
-      .attribution {
-        font-size: 0.6875rem;
-        text-align: center;
-      }
+<body>
+  <a class="c-skip-link"
+    href="#main-content">Skip to main content</a>
+  <main class="l-cover" id="main-content">
+    <div class="center l-center c-container">
+      <div class="c-app l-stack"
+        data-space="large">
+        <section class="c-new-game l-stack"
+          data-space="normal"
+          aria-labelledby="new-game-title">
+          <svg viewBox="0 0 72 32"
+            class="c-new-game__logo"
+            xmlns="http://www.w3.org/2000/svg">
+            <g fill="none"
+              fill-rule="evenodd">
+              <path
+                d="M8.562 1.634 16 9.073l7.438-7.439a3 3 0 0 1 4.243 0l2.685 2.685a3 3 0 0 1 0 4.243L22.927 16l7.439 7.438a3 3 0 0 1 0 4.243l-2.685 2.685a3 3 0 0 1-4.243 0L16 22.927l-7.438 7.439a3 3 0 0 1-4.243 0L1.634 27.68a3 3 0 0 1 0-4.243L9.073 16 1.634 8.562a3 3 0 0 1 0-4.243L4.32 1.634a3 3 0 0 1 4.243 0Z"
+                fill="#31C3BD" />
+              <path
+                d="M56.1 0c8.765 0 15.87 7.106 15.87 15.87 0 8.766-7.105 15.871-15.87 15.871-8.765 0-15.87-7.105-15.87-15.87C40.23 7.106 47.334 0 56.1 0Zm0 9.405a6.466 6.466 0 1 0 0 12.931 6.466 6.466 0 0 0 0-12.931Z"
+                fill="#F2B137"
+                fill-rule="nonzero" />
+            </g>
+          </svg>
+          <div class="c-new-game__header l-box l-stack">
+            <h1 id="new-game-title">Pick player 1's mark</h1>
+            <!-- chekck box -->
+            <div class="c-mark-picker l-cluster l-box"
+              data-gap="small"
+              role="group"
+              aria-labelledby="new-game-title">
+              <label for="c-mark-picker__choice-x"
+                class="c-mark-picker__choice">
+                <input type="radio"
+                  class="c-mark-picker__choice-input u-sr-only"
+                  id="c-mark-picker__choice-x"
+                  name="mark"
+                  value="X" />
+                <svg width="64"
+                  height="64"
+                  class="c-mark-picker__choice-icon"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z"
+                    fill="currentColor"
+                    fill-rule="evenodd" />
+                </svg>
+              </label>
+              <label for="c-mark-picker__choice-o"
+                class="c-mark-picker__choice">
+                <input type="radio"
+                  class="c-mark-picker__choice-input u-sr-only"
+                  id="c-mark-picker__choice-o"
+                  name="mark"
+                  value="O" checked />
+                <svg width="64"
+                  height="64"
+                  class="c-mark-picker__choice-icon"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M32 0c17.673 0 32 14.327 32 32 0 17.673-14.327 32-32 32C14.327 64 0 49.673 0 32 0 14.327 14.327 0 32 0Zm0 18.963c-7.2 0-13.037 5.837-13.037 13.037 0 7.2 5.837 13.037 13.037 13.037 7.2 0 13.037-5.837 13.037-13.037 0-7.2-5.837-13.037-13.037-13.037Z"
+                    fill="currentColor" />
+                </svg>
+              </label>
+            </div>
+            <p class="c-new-game__hint">Remember: X goes first</p>
+          </div>
+          <div class="c-new-game__actions l-stack"
+            data-space="small">
+            <button class="c-button c-button--secondary"
+              type="button">
+              New Game (vs player)
+            </button>
+            <button class="c-button c-button--primary"
+              type="button">
+              New Game (vs CPU)
+            </button>
+          </div>
+        </section>
+        <section class="c-game-board"
+          aria-label="Game board"
+          hidden>
+          <header class="c-game-board__header l-cluster"
+            data-justify="between">
+            <img src="./images/logo.svg"
+              alt="Tic Tac Toe" />
+            <p class="c-turn-indicator">
+              <img src="./images/icon-x.svg"
+                alt="" /><span>Turn</span>
+            </p>
+            <button class="c-button c-restart"
+              type="button"
+              aria-label="Restart game">
+              <img src="./images/icon-restart.svg"
+                alt="" />
+            </button>
+          </header>
+          <div class="c-board"
+            role="grid"
+            aria-label="Tic Tac Toe board">
+            <button class="c-board__cell"
+              type="button"
+              role="gridcell"
+              aria-label="Empty square 1"></button><button class="c-board__cell"
+              type="button"
+              role="gridcell"
+              aria-label="Empty square 2"></button><button class="c-board__cell"
+              type="button"
+              role="gridcell"
+              aria-label="Empty square 3"></button><button class="c-board__cell"
+              type="button"
+              role="gridcell"
+              aria-label="Empty square 4"></button><button class="c-board__cell"
+              type="button"
+              role="gridcell"
+              aria-label="Empty square 5"></button><button class="c-board__cell"
+              type="button"
+              role="gridcell"
+              aria-label="Empty square 6"></button><button class="c-board__cell"
+              type="button"
+              role="gridcell"
+              aria-label="Empty square 7"></button><button class="c-board__cell"
+              type="button"
+              role="gridcell"
+              aria-label="Empty square 8"></button><button class="c-board__cell"
+              type="button"
+              role="gridcell"
+              aria-label="Empty square 9"></button>
+          </div>
+          <section class="c-scores l-cluster"
+            data-gap="small"
+            aria-label="Score">
+            <div class="c-score l-stack"
+              data-space="small">
+              <span class="c-score__label">X (You)</span><output class="c-score__value">0</output>
+            </div>
+            <div class="c-score l-stack"
+              data-space="small">
+              <span class="c-score__label">Ties</span><output class="c-score__value">0</output>
+            </div>
+            <div class="c-score l-stack"
+              data-space="small">
+              <span class="c-score__label">X (CPU)</span><output class="c-score__value">0</output>
+            </div>
+          </section>
+        </section>
+        <section class="c-round-result l-stack"
+          data-space="small"
+          aria-live="assertive"
+          hidden>
+          <p class="c-round-result__message">Oh no, you lost</p>
+          <p class="c-round-result__message">You won!</p>
+          <p class="c-round-result__message">Player 1 wins!</p>
+          <p class="c-round-result__winner">
+            <img src="./images/icon-o.svg"
+              alt="" /><span>takes the round</span>
+          </p>
+          <p class="c-round-result__tie">Round tied</p>
+          <div class="c-round-result__actions l-cluster"
+            data-gap="small">
+            <button class="c-button"
+              type="button">Quit</button><button class="c-button c-button--primary"
+              type="button">
+              Next round
+            </button>
+          </div>
+        </section>
+        <section class="c-restart-dialog l-stack"
+          data-space="normal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="restart-title"
+          hidden>
+          <h2 id="restart-title">Restart game?</h2>
+          <div class="c-restart-dialog__actions l-cluster"
+            data-gap="small">
+            <button class="c-button"
+              type="button">No, cancel</button><button class="c-button c-button--primary"
+              type="button">
+              Yes, restart
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script src="./js/main.js"
+    defer></script>
+</body>
 
-      .attribution a {
-        color: hsl(228, 45%, 44%);
-      }
-    </style>
-  </head>
-
-  <body>
-    <footer class="attribution">
-      Challenge by
-      <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
-      Coded by
-      <a href="https://www.frontendmentor.io/profile/jonghwascript"
-        >jonghwascript</a
-      >.
-    </footer>
-  </body>
 </html>

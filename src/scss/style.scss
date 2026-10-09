@@ -1,12 +1,67 @@
 // 불러오는 순서가 곧 캐스케이드 순서다. 유틸리티는 마지막에 둔다.
+@use './abstracts' as *;
 @use 'base/fonts';
 @use 'base/reset';
 @use 'base/base';
-
 @use 'layout/every-layout';
-
 @use 'components/skip-link';
-
+@use 'components/button';
+@use 'components/mark-picker';
 @use 'pages/home';
-
 @use 'utilities/utilities'; // 같은 명시도에서 다른 규칙을 이기도록 마지막에
+
+body {
+  background-color: $slate-900;
+}
+
+p{
+  max-inline-size: initial;
+}
+
+.c-main {
+  max-inline-size: 375px;
+}
+
+section:not(.c-new-game) {
+  display: none !important;
+}
+
+.c-container {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+
+}
+
+.c-new-game {
+  // border: 1px solid #000;
+}
+
+.c-new-game__header {
+  --padding: 24px;
+  --space: 24px;
+  border: 0;
+  background-color: $slate-800;
+}
+
+.c-app {
+  margin-block: auto;
+
+  .c-new-game__logo {
+    width: 72px;
+    height: 32px;
+    margin-inline: auto;
+  }
+
+  h1 {
+    @include font-style($text-preset-4, 700, 125%);
+    color: $slate-300;
+    text-align: center;
+  }
+}
+
+.c-new-game__hint {
+  @include font-style($text-preset-5, 700, 130%);
+  color: $slate-300;
+  text-align: center;
+}

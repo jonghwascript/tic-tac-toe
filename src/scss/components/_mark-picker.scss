@@ -1,0 +1,29 @@
+@use '../abstracts' as *;
+
+
+.c-mark-picker {
+  --padding: 8px;
+  gap: 0;
+  border: 0;
+  padding-block: 9px;
+  padding-inline: 7.5px;
+  background-color: $slate-900;
+  border-radius: 10px;
+
+  .c-mark-picker__choice {
+    flex: 1;
+    max-inline-size: 100%;
+    color: #A8A8A8;
+    padding-block: 11.13px;
+
+    &:has(.c-mark-picker__choice-input:checked) {
+      color: $slate-900;
+      background-color: $slate-300;
+      border-radius: 10px;
+    }
+
+    .c-mark-picker__choice-icon{
+      margin-inline: auto;
+    }
+  }
+}

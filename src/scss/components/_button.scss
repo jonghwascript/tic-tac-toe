@@ -1,0 +1,81 @@
+@use '../abstracts' as *;
+
+.c-button {
+  inline-size: 100%;
+  padding-block-start: 16px;
+  padding-block-end: 26px;
+  border-radius: 16px;
+  background-color: $amber-400;
+  box-shadow: inset 0px -8px 0px 0px #cc8b13;
+  @include font-style($text-preset-3, 700, 125%);
+  letter-spacing: 1.25px;
+  color: $slate-900;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $amber-300;
+  }
+
+  &:focus-visible {
+    @extend %button-focus-visible;
+  }
+
+  &--secondary {
+    background-color: $teal-400;
+    box-shadow: inset 0px -8px 0px 0px #118c87;
+    color: $slate-900;
+
+    &:hover {
+      background-color: $teal-300;
+    }
+
+    &:focus-visible {
+      @extend %button-focus-visible;
+    }
+  }
+
+  &--medium {
+    @extend %button-compact;
+  }
+
+  &--small {
+    @extend %button-compact;
+    @extend %button-slate-surface;
+
+    &:hover {
+      @extend %button-slate-hover;
+    }
+  }
+
+  &--icon {
+    @extend %button-compact;
+    @extend %button-slate-surface;
+
+    &:hover {
+      @extend %button-slate-hover;
+    }
+  }
+}
+
+%button-focus-visible {
+  outline: 3px solid $neutral-000;
+  outline-offset: 4px;
+}
+
+%button-compact {
+  width: fit-content;
+  padding-block: 16px;
+  padding-inline: 16px;
+  @include font-style($text-preset-4, 700, 125%);
+  text-transform: uppercase;
+}
+
+%button-slate-surface {
+  background-color: $slate-300;
+  box-shadow: inset 0px -4px 0px 0px #6b8997;
+  color: $slate-900;
+}
+
+%button-slate-hover {
+  background-color: $slate-100;
+}
