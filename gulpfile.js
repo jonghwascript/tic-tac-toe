@@ -1,7 +1,6 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
-const fileInclude = require('gulp-file-include');
 const browserSync = require('browser-sync').create();
 
 const DIST_DIR = 'dist';
@@ -16,11 +15,6 @@ const STATIC_FILES = [
   'src/{js,images,fonts}/**/*',
 ];
 
-async function cleanTask() {
-  const { rm } = await import('node:fs/promises');
-  await rm(DIST_DIR, { recursive: true, force: true });
-}
-
 function scssTask() {
   return gulp
     .src('src/scss/style.scss')
@@ -33,12 +27,6 @@ function scssTask() {
 function htmlTask() {
   return gulp
     .src('src/pages/*.html')
-    .pipe(
-      fileInclude({
-        prefix: '@@',
-        basepath: '@file',
-      }),
-    )
     .pipe(gulp.dest(DIST_DIR));
 }
 
@@ -60,10 +48,7 @@ async function prettierTask() {
     .pipe(gulp.dest('.'));
 }
 
-const buildTask = gulp.series(
-  cleanTask,
-  gulp.parallel(scssTask, htmlTask, staticTask),
-);
+const buildTask = gulp.parallel(scssTask, htmlTask, staticTask);
 
 function serveTask(done) {
   browserSync.init(
@@ -86,11 +71,10 @@ function serveTask(done) {
 
 function watchTask() {
   gulp.watch('src/scss/**/*.scss', scssTask);
-  gulp.watch(['src/pages/**/*.html', 'src/partials/**/*.html'], htmlTask);
+  gulp.watch('src/pages/**/*.html', htmlTask);
   gulp.watch(STATIC_FILES, staticTask);
 }
 
-exports.clean = cleanTask;
 exports.scss = scssTask;
 exports.html = htmlTask;
 exports.static = staticTask;

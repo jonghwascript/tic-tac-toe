@@ -91,8 +91,8 @@
 - 메뉴 스크립트: `src/js/main.js`
 - 생성 결과: `dist` — 직접 수정하지 않는다.
 - `dist` 폴더와 내부 파일을 삭제하지 않는다. 직접 삭제뿐 아니라 정리 스크립트나 빌드·개발 명령을 통한 간접 삭제도 금지한다. 실행 전에 `dist` 삭제 여부를 확인하고, 삭제가 포함된 명령은 실행하지 않는다.
-- `npm run build`: dist 정리, HTML 처리, SCSS 컴파일, 정적 파일 복사
-- `npm run dev`: 초기 빌드 및 파일 감시. HTTP 서버나 자동 브라우저 새로고침은 제공하지 않는다.
+- `npm run build`: dist를 삭제하지 않고 HTML 복사, SCSS 컴파일, 정적 파일 복사
+- `npm run dev`: 초기 빌드 후 BrowserSync 개발 서버와 파일 감시를 시작한다.
 - `npm run format`: 소스를 변경하는 명령이므로 검사 목적으로 무조건 실행하지 않는다.
 - `npm test`: 현재 실제 테스트가 없는 실패용 placeholder다. 테스트 통과로 보고하지 않는다.
 - JavaScript 문법 검사: `node --check src/js/main.js`
