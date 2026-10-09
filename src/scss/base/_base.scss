@@ -1,0 +1,53 @@
+// ==========================================
+// 모듈러 스케일 (Every Layout 간격 토큰)
+// ==========================================
+:root {
+  --base-size: 1rem;
+  --ratio: 1.5;
+
+  --s0: var(--base-size);
+  --s1: calc(var(--s0) * var(--ratio)); // 1.5rem
+  --s2: calc(var(--s1) * var(--ratio)); // 2.25rem
+  --s3: calc(var(--s2) * var(--ratio)); // 3.375rem
+  --s4: calc(var(--s3) * var(--ratio)); // 5.0625rem
+
+  // 캡션이나 작은 아이콘용
+  --s-1: calc(var(--s0) / var(--ratio)); // 0.66rem
+  --s-2: calc(var(--s-1) / var(--ratio)); // 0.44rem
+}
+
+// ==========================================
+// 전역 타이포그래피와 가독성
+// ==========================================
+body {
+  // 모듈러 스케일의 기준이 되는 줄 간격
+  line-height: var(--ratio);
+  background-color: #fff;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  color: #222;
+  -webkit-font-smoothing: antialiased;
+}
+
+// 본문 한 줄이 60자를 넘지 않게 해 읽기 쉽게 한다
+p,
+li,
+figcaption {
+  max-width: 60ch;
+}
+
+// 제목은 글자가 크므로 줄 간격을 좁혀 한 덩어리로 보이게 한다
+h1,
+h2,
+h3,
+h4 {
+  max-width: 60ch;
+  line-height: 1.2;
+}
+
+button:focus-visible {
+  outline: 3px solid blue;
+  outline-offset: 3px;
+}
