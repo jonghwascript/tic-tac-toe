@@ -14,7 +14,7 @@ body {
   background-color: $slate-900;
 }
 
-p{
+p {
   max-inline-size: initial;
 }
 
@@ -22,7 +22,7 @@ p{
   max-inline-size: 375px;
 }
 
-section:not(.c-new-game) {
+section:not(.c-round-result) {
   display: none !important;
 }
 
@@ -33,6 +33,9 @@ section:not(.c-new-game) {
 
 }
 
+// ------------------------------------------
+// NEW GAME
+// ------------------------------------------
 .c-new-game {
   // border: 1px solid #000;
 }
@@ -64,4 +67,213 @@ section:not(.c-new-game) {
   @include font-style($text-preset-5, 700, 130%);
   color: $slate-300;
   text-align: center;
+}
+
+// ------------------------------------------
+// GAME BOARD
+// ------------------------------------------
+.c-game-board {
+  --space: 64px;
+}
+
+.c-game-board__header {
+  --space: 47px;
+  justify-content: flex-start;
+
+  >* {
+    // flex: 1;
+  }
+}
+
+.c-new-game__logo {
+  width: 72px;
+  height: auto;
+}
+
+.c-turn-indicator {
+  align-items: center;
+  padding: 11px 15.5px;
+  background-color: $slate-800;
+  border-radius: 6px;
+
+  .c-turn-indicator__icon {
+    margin-inline-end: 8px;
+    color: $slate-300;
+    width: 16px;
+    height: 16px;
+  }
+
+  .c-turn-indicator__text {
+    @include font-style($text-preset-5, 700, 130%);
+    color: $slate-300;
+  }
+}
+
+.c-button--icon-restart {
+  margin-inline-start: auto;
+  // inline-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.c-board-layout {
+  --space: 20px;
+}
+
+.c-board {
+  grid-template-columns: repeat(auto-fit, minmax(min(95px, 100%), 1fr));
+  grid-template-rows: repeat(3, minmax(95px, 1fr));
+  gap: 20px;
+}
+
+
+.c-board__cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $slate-800;
+  border-radius: 10px;
+  box-shadow: inset 0px -8px 0px 0px #10212A;
+  position: relative;
+
+  &--x::after,
+  &--o::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-image: url('../images/icon-o.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  &--x::after {
+    background-image: url('../images/icon-x.svg');
+  }
+}
+
+.c-scores {
+  --space: 20px;
+  flex-wrap: nowrap;
+
+  .c-score {
+    width: 96px;
+    height: 64px;
+    border-radius: 10px;
+    background-color: $teal-400;
+
+    &--ties {
+      background-color: $slate-300;
+    }
+
+    &--o {
+      background-color: $amber-400;
+    }
+  }
+}
+
+.c-score--o,
+.c-score--ties,
+.c-score--x {
+  gap: 0;
+  align-items: center;
+  padding-block: 12px;
+
+  .c-score__label {
+    @include font-style($text-preset-5, 700, 130%);
+    color: $slate-900;
+  }
+
+  .c-score__value {
+    @include font-style($text-preset-2, 700, 125%);
+    color: $slate-900;
+  }
+}
+
+// ------------------------------------------
+// Reuslt Dialog
+// ------------------------------------------
+.c-round-result {
+  width: 100%;
+  padding-block: 44px;
+  margin: auto;
+  inset: 0;
+  background-color: $slate-800;
+  border: 0;
+  text-align: center;
+
+  .c-round-result__message {
+    @include font-style($text-preset-5, 700, 125%);
+    color: $slate-300;
+  }
+}
+
+.c-round-result__layout {
+  --space: 16px;
+}
+
+.c-round-result__winner {
+  align-items: center;
+  margin-inline: auto;
+
+  .c-round-result__icon {
+    --space: 24px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .c-round-result__text {
+    @include font-style($text-preset-2, 700, 125%);
+    color: $amber-400;
+  }
+}
+
+.c-round-result__tie {
+  @include font-style($text-preset-1, 700, 120%);
+  color: $slate-300;
+}
+
+.c-round-result__inner-layout {
+  --space: 24px;
+}
+
+.c-round-result__actions {
+  --space: 16px;
+  justify-content: initial;
+  margin-inline: 51px;
+
+  .c-button--small {
+    flex-basis: 76px;
+  }
+
+  .c-button--medium {
+    // word-break: normal;
+    flex: 1;
+  }
+}
+
+// ------------------------------------------
+// Restart Dialog
+// ------------------------------------------
+.c-restart-dialog {
+  width: 100%;
+  padding-block: 44px;
+  margin: auto;
+  inset: 0;
+  background-color: $slate-800;
+  border: 0;
+  text-align: center;
+}
+
+.c-restart-dialog__actions{
+  .c-button {
+    min-width: 0;
+    flex : 1;
+  }
+}
+
+.c-restart-dialog__title {
+  @include font-style($text-preset-2, 700, 120%);
+  color: $slate-300;
 }

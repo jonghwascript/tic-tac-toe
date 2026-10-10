@@ -4,6 +4,7 @@
   inline-size: 100%;
   padding-block-start: 16px;
   padding-block-end: 26px;
+  padding-inline: 16px;
   border-radius: 16px;
   background-color: $amber-400;
   box-shadow: inset 0px -8px 0px 0px #cc8b13;
@@ -34,6 +35,15 @@
     }
   }
 
+  &--slate {
+    background-color: $slate-300;
+    box-shadow: inset 0px -8px 0px 0px #6b8997;
+
+    &:hover {
+      background-color: $slate-100;
+    }
+  }
+
   &--medium {
     @extend %button-compact;
   }
@@ -47,7 +57,7 @@
     }
   }
 
-  &--icon {
+  &--icon-restart {
     @extend %button-compact;
     @extend %button-slate-surface;
 
@@ -63,9 +73,8 @@
 }
 
 %button-compact {
-  width: fit-content;
   padding-block: 16px;
-  padding-inline: 16px;
+  border-radius: 6px;
   @include font-style($text-preset-4, 700, 125%);
   text-transform: uppercase;
 }

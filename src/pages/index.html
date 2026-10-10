@@ -19,27 +19,16 @@
 <body>
   <a class="c-skip-link"
     href="#main-content">Skip to main content</a>
-  <main class="l-cover" id="main-content">
-    <div class="center l-center c-container">
+  <main class="l-cover"
+    id="main-content">
+    <div class="l-center c-container">
       <div class="c-app l-stack"
         data-space="large">
+        <!-- New Game -->
         <section class="c-new-game l-stack"
           data-space="normal"
           aria-labelledby="new-game-title">
-          <svg viewBox="0 0 72 32"
-            class="c-new-game__logo"
-            xmlns="http://www.w3.org/2000/svg">
-            <g fill="none"
-              fill-rule="evenodd">
-              <path
-                d="M8.562 1.634 16 9.073l7.438-7.439a3 3 0 0 1 4.243 0l2.685 2.685a3 3 0 0 1 0 4.243L22.927 16l7.439 7.438a3 3 0 0 1 0 4.243l-2.685 2.685a3 3 0 0 1-4.243 0L16 22.927l-7.438 7.439a3 3 0 0 1-4.243 0L1.634 27.68a3 3 0 0 1 0-4.243L9.073 16 1.634 8.562a3 3 0 0 1 0-4.243L4.32 1.634a3 3 0 0 1 4.243 0Z"
-                fill="#31C3BD" />
-              <path
-                d="M56.1 0c8.765 0 15.87 7.106 15.87 15.87 0 8.766-7.105 15.871-15.87 15.871-8.765 0-15.87-7.105-15.87-15.87C40.23 7.106 47.334 0 56.1 0Zm0 9.405a6.466 6.466 0 1 0 0 12.931 6.466 6.466 0 0 0 0-12.931Z"
-                fill="#F2B137"
-                fill-rule="nonzero" />
-            </g>
-          </svg>
+          @@include('./components/logo.html')
           <div class="c-new-game__header l-box l-stack">
             <h1 id="new-game-title">Pick player 1's mark</h1>
             <!-- chekck box -->
@@ -70,7 +59,8 @@
                   class="c-mark-picker__choice-input u-sr-only"
                   id="c-mark-picker__choice-o"
                   name="mark"
-                  value="O" checked />
+                  value="O"
+                  checked />
                 <svg width="64"
                   height="64"
                   class="c-mark-picker__choice-icon"
@@ -95,111 +85,151 @@
             </button>
           </div>
         </section>
-        <section class="c-game-board"
-          aria-label="Game board"
-          hidden>
-          <header class="c-game-board__header l-cluster"
-            data-justify="between">
-            <img src="./images/logo.svg"
-              alt="Tic Tac Toe" />
-            <p class="c-turn-indicator">
-              <img src="./images/icon-x.svg"
-                alt="" /><span>Turn</span>
+        <!-- Game Board -->
+        <section class="c-game-board l-stack"
+          aria-label="Game board">
+          <header class="c-game-board__header l-cluster">
+            @@include('./components/logo.html')
+            <p class="c-turn-indicator l-with-icon">
+              <svg viewBox="0 0 64 64"
+                class="c-turn-indicator__icon l-icon"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z"
+                  fill="currentColor"
+                  fill-rule="evenodd" />
+              </svg>
+              <span class="c-turn-indicator__text">Turn</span>
             </p>
-            <button class="c-button c-restart"
-              type="button"
-              aria-label="Restart game">
-              <img src="./images/icon-restart.svg"
-                alt="" />
+            <button class="c-button c-button--icon-restart"
+              type="button">
+              <svg width="20"
+                height="20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M19.524 0h-1.88a.476.476 0 0 0-.476.499l.159 3.284A9.81 9.81 0 0 0 9.835.317C4.415.317-.004 4.743 0 10.167.004 15.597 4.406 20 9.835 20a9.796 9.796 0 0 0 6.59-2.536.476.476 0 0 0 .019-.692l-1.348-1.349a.476.476 0 0 0-.65-.022 6.976 6.976 0 0 1-9.85-.63 6.987 6.987 0 0 1 .63-9.857 6.976 6.976 0 0 1 10.403 1.348l-4.027-.193a.476.476 0 0 0-.498.476v1.881c0 .263.213.476.476.476h7.944A.476.476 0 0 0 20 8.426V.476A.476.476 0 0 0 19.524 0Z"
+                  fill="#1F3641" />
+              </svg>
             </button>
           </header>
-          <div class="c-board"
-            role="grid"
-            aria-label="Tic Tac Toe board">
-            <button class="c-board__cell"
-              type="button"
-              role="gridcell"
-              aria-label="Empty square 1"></button><button class="c-board__cell"
-              type="button"
-              role="gridcell"
-              aria-label="Empty square 2"></button><button class="c-board__cell"
-              type="button"
-              role="gridcell"
-              aria-label="Empty square 3"></button><button class="c-board__cell"
-              type="button"
-              role="gridcell"
-              aria-label="Empty square 4"></button><button class="c-board__cell"
-              type="button"
-              role="gridcell"
-              aria-label="Empty square 5"></button><button class="c-board__cell"
-              type="button"
-              role="gridcell"
-              aria-label="Empty square 6"></button><button class="c-board__cell"
-              type="button"
-              role="gridcell"
-              aria-label="Empty square 7"></button><button class="c-board__cell"
-              type="button"
-              role="gridcell"
-              aria-label="Empty square 8"></button><button class="c-board__cell"
-              type="button"
-              role="gridcell"
-              aria-label="Empty square 9"></button>
+          <div class="l-stack c-board-layout">
+            <div class="c-board l-grid"
+              role="grid"
+              aria-label="Tic Tac Toe board">
+              <button class="c-board__cell c-board__cell--o"
+                type="button"
+                role="gridcell"
+                aria-label="Empty square 1">
+              </button>
+              <button class="c-board__cell"
+                type="button"
+                role="gridcell"
+                aria-label="Empty square 2">
+              </button>
+              <button class="c-board__cell c-board__cell--x"
+                type="button"
+                role="gridcell"
+                aria-label="Empty square 3">
+              </button>
+              <button class="c-board__cell"
+                type="button"
+                role="gridcell"
+                aria-label="Empty square 4">
+              </button>
+              <button class="c-board__cell"
+                type="button"
+                role="gridcell"
+                aria-label="Empty square 5">
+              </button>
+              <button class="c-board__cell"
+                type="button"
+                role="gridcell"
+                aria-label="Empty square 6">
+              </button>
+              <button class="c-board__cell"
+                type="button"
+                role="gridcell"
+                aria-label="Empty square 7">
+              </button>
+              <button class="c-board__cell"
+                type="button"
+                role="gridcell"
+                aria-label="Empty square 8">
+              </button>
+              <button class="c-board__cell"
+                type="button"
+                role="gridcell"
+                aria-label="Empty square 9">
+              </button>
+            </div>
+            <section class="c-scores l-cluster"
+              aria-label="Score">
+              <div class="c-score l-stack c-score--x"
+                data-space="small">
+                <span class="c-score__label">X (You)</span>
+                <output class="c-score__value">0</output>
+              </div>
+              <div class="c-score l-stack c-score--ties"
+                data-space="small">
+                <span class="c-score__label">Ties</span>
+                <output class="c-score__value">0</output>
+              </div>
+              <div class="c-score l-stack c-score--o"
+                data-space="small">
+                <span class="c-score__label">O (CPU)</span>
+                <output class="c-score__value">0</output>
+              </div>
+            </section>
           </div>
-          <section class="c-scores l-cluster"
-            data-gap="small"
-            aria-label="Score">
-            <div class="c-score l-stack"
-              data-space="small">
-              <span class="c-score__label">X (You)</span><output class="c-score__value">0</output>
-            </div>
-            <div class="c-score l-stack"
-              data-space="small">
-              <span class="c-score__label">Ties</span><output class="c-score__value">0</output>
-            </div>
-            <div class="c-score l-stack"
-              data-space="small">
-              <span class="c-score__label">X (CPU)</span><output class="c-score__value">0</output>
-            </div>
-          </section>
         </section>
-        <section class="c-round-result l-stack"
-          data-space="small"
+        <!-- Dialog -->
+        <dialog class="c-round-result"
           aria-live="assertive"
-          hidden>
-          <p class="c-round-result__message">Oh no, you lost</p>
-          <p class="c-round-result__message">You won!</p>
-          <p class="c-round-result__message">Player 1 wins!</p>
-          <p class="c-round-result__winner">
-            <img src="./images/icon-o.svg"
-              alt="" /><span>takes the round</span>
-          </p>
-          <p class="c-round-result__tie">Round tied</p>
-          <div class="c-round-result__actions l-cluster"
-            data-gap="small">
-            <button class="c-button"
-              type="button">Quit</button><button class="c-button c-button--primary"
-              type="button">
-              Next round
-            </button>
+          close>
+          <div class="c-round-result__layout l-stack">
+            <p class="c-round-result__message">Oh no, you lost</p>
+            <p class="c-round-result__message u-hidden">You won!</p>
+            <p class="c-round-result__message u-hidden">Player 1 wins!</p>
+            <div class="c-round-result__inner-layout l-stack">
+              <p class="c-round-result__winner l-with-icon">
+                <img class="l-icon c-round-result__icon"
+                  src="./images/icon-o.svg"
+                  alt="" />
+                <span class="c-round-result__text">takes the round</span>
+              </p>
+              <p class="c-round-result__tie u-hidden">Round tied</p>
+              <div class="c-round-result__actions l-cluster">
+                <button class="c-button c-button--small"
+                  type="button">Quit
+                </button>
+                <button class="c-button c-button--primary c-button--medium"
+                  type="button">
+                  Next round
+                </button>
+              </div>
+            </div>
           </div>
-        </section>
-        <section class="c-restart-dialog l-stack"
-          data-space="normal"
-          role="dialog"
+        </dialog>
+        <!-- Restart Dialog-->
+        <dialog class="c-restart-dialog"
           aria-modal="true"
           aria-labelledby="restart-title"
-          hidden>
-          <h2 id="restart-title">Restart game?</h2>
-          <div class="c-restart-dialog__actions l-cluster"
-            data-gap="small">
-            <button class="c-button"
-              type="button">No, cancel</button><button class="c-button c-button--primary"
-              type="button">
-              Yes, restart
-            </button>
-          </div>
-        </section>
+          open>
+          <div class="restart-dialog__layout l-stack">
+            <h2 id="restart-title"
+              class="c-restart-dialog__title">Restart game?</h2>
+            <div class="c-restart-dialog__actions l-cluster"
+              data-gap="small">
+              <button class="c-button c-button--medium c-button--slate"
+                type="button">No, cancel</button>
+              <button class="c-button c-button--medium"
+                type="button">
+                Yes, restart
+              </button>
+            </div>
+        </dialog>
       </div>
+    </div>
     </div>
   </main>
   <script src="./js/main.js"

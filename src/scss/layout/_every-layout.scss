@@ -382,7 +382,7 @@
   display: inline-flex;
   align-items: baseline;
 }
-.l-with-icon .icon {
+.l-with-icon .l-icon {
   // 논리적 속성을 사용하여 텍스트 읽는 방향에 맞춰 여백 적용
   margin-inline-end: var(--space, 0.5em);
 }
