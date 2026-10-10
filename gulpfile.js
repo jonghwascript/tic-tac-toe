@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const fileInclude = require('gulp-file-include');
 const sass = require('gulp-sass')(require('sass'));
 const sourcemaps = require('gulp-sourcemaps');
 const browserSync = require('browser-sync').create();
@@ -27,6 +28,7 @@ function scssTask() {
 function htmlTask() {
   return gulp
     .src('src/pages/*.html')
+    .pipe(fileInclude({ prefix: '@@', basepath: '@file' }))
     .pipe(gulp.dest(DIST_DIR));
 }
 
