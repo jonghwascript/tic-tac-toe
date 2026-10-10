@@ -1,0 +1,96 @@
+<section class="c-game-board l-stack"
+    aria-label="Game board">
+    <header class="c-game-board__header l-cluster">
+        @@include('logo.html')
+        <p class="c-turn-indicator l-with-icon"
+            role="status"
+            aria-atomic="true">
+            <svg viewBox="0 0 64 64"
+                class="c-turn-indicator__icon l-icon"
+                aria-hidden="true"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M15.002 1.147 32 18.145 48.998 1.147a3 3 0 0 1 4.243 0l9.612 9.612a3 3 0 0 1 0 4.243L45.855 32l16.998 16.998a3 3 0 0 1 0 4.243l-9.612 9.612a3 3 0 0 1-4.243 0L32 45.855 15.002 62.853a3 3 0 0 1-4.243 0L1.147 53.24a3 3 0 0 1 0-4.243L18.145 32 1.147 15.002a3 3 0 0 1 0-4.243l9.612-9.612a3 3 0 0 1 4.243 0Z"
+                    fill="currentColor"
+                    fill-rule="evenodd" />
+            </svg>
+            <span class="c-turn-indicator__text"><span class="u-sr-only">X's </span>Turn</span>
+        </p>
+        <button class="c-button c-button--icon-restart"
+            aria-label="Restart game"
+            type="button">
+            <svg viewBox="0 0 20 20"
+                class="c-button__icon"
+                aria-hidden="true"
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M19.524 0h-1.88a.476.476 0 0 0-.476.499l.159 3.284A9.81 9.81 0 0 0 9.835.317C4.415.317-.004 4.743 0 10.167.004 15.597 4.406 20 9.835 20a9.796 9.796 0 0 0 6.59-2.536.476.476 0 0 0 .019-.692l-1.348-1.349a.476.476 0 0 0-.65-.022 6.976 6.976 0 0 1-9.85-.63 6.987 6.987 0 0 1 .63-9.857 6.976 6.976 0 0 1 10.403 1.348l-4.027-.193a.476.476 0 0 0-.498.476v1.881c0 .263.213.476.476.476h7.944A.476.476 0 0 0 20 8.426V.476A.476.476 0 0 0 19.524 0Z"
+                    fill="currentColor" />
+            </svg>
+        </button>
+    </header>
+    <div class="l-stack c-board-layout">
+        <div class="c-board l-grid"
+            role="group"
+            aria-label="Tic Tac Toe board">
+            <button class="c-board__cell c-board__cell--o"
+                type="button"
+                aria-label="Row 1, column 1, O"
+                disabled>
+            </button>
+            <button class="c-board__cell"
+                type="button"
+                aria-label="Row 1, column 2, empty">
+            </button>
+            <button class="c-board__cell c-board__cell--x"
+                type="button"
+                aria-label="Row 1, column 3, X"
+                disabled>
+            </button>
+            <button class="c-board__cell"
+                type="button"
+                aria-label="Row 2, column 1, empty">
+            </button>
+            <button class="c-board__cell"
+                type="button"
+                aria-label="Row 2, column 2, empty">
+            </button>
+            <button class="c-board__cell"
+                type="button"
+                aria-label="Row 2, column 3, empty">
+            </button>
+            <button class="c-board__cell"
+                type="button"
+                aria-label="Row 3, column 1, empty">
+            </button>
+            <button class="c-board__cell"
+                type="button"
+                aria-label="Row 3, column 2, empty">
+            </button>
+            <button class="c-board__cell"
+                type="button"
+                aria-label="Row 3, column 3, empty">
+            </button>
+        </div>
+        <section class="c-scores l-cluster"
+            aria-label="Score">
+            <div class="c-score l-stack c-score--x"
+                data-space="small">
+                <span class="c-score__label" id="score-x-label">X (You)</span>
+                <output class="c-score__value" aria-labelledby="score-x-label">0</output>
+            </div>
+            <div class="c-score l-stack c-score--ties"
+                data-space="small">
+                <span class="c-score__label" id="score-ties-label">Ties</span>
+                <output class="c-score__value" aria-labelledby="score-ties-label">0</output>
+            </div>
+            <div class="c-score l-stack c-score--o"
+                data-space="small">
+                <span class="c-score__label" id="score-o-label">O (CPU)</span>
+                <output class="c-score__value" aria-labelledby="score-o-label">0</output>
+            </div>
+        </section>
+    </div>
+</section>

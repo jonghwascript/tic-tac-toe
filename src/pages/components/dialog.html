@@ -1,0 +1,46 @@
+<dialog class="c-round-result"
+    aria-live="assertive"
+    close>
+    <div class="c-round-result__layout l-stack">
+        <p class="c-round-result__message">Oh no, you lost</p>
+        <p class="c-round-result__message u-hidden">You won!</p>
+        <p class="c-round-result__message u-hidden">Player 1 wins!</p>
+        <div class="c-round-result__inner-layout l-stack">
+            <p class="c-round-result__winner l-with-icon">
+                <img class="l-icon c-round-result__icon"
+                    src="./images/icon-o.svg"
+                    alt="" />
+                <span class="c-round-result__text">takes the round</span>
+            </p>
+            <p class="c-round-result__tie u-hidden">Round tied</p>
+            <div class="c-round-result__actions l-cluster">
+                <button class="c-button c-button--small"
+                    type="button">Quit
+                </button>
+                <button class="c-button c-button--primary c-button--medium"
+                    type="button">
+                    Next round
+                </button>
+            </div>
+        </div>
+    </div>
+</dialog>
+<!-- Restart Dialog-->
+<dialog class="c-restart-dialog"
+    aria-modal="true"
+    aria-labelledby="restart-title"
+    close>
+    <div class="restart-dialog__layout l-stack">
+        <h2 id="restart-title"
+            class="c-restart-dialog__title">Restart game?</h2>
+        <div class="c-restart-dialog__actions l-cluster"
+            data-gap="small">
+            <button class="c-button c-button--medium c-button--slate"
+                type="button">No, cancel</button>
+            <button class="c-button c-button--medium"
+                type="button">
+                Yes, restart
+            </button>
+        </div>
+    </div>
+</dialog>

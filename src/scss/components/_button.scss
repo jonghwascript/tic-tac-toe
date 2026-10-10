@@ -60,6 +60,7 @@
   &--icon-restart {
     @extend %button-compact;
     @extend %button-slate-surface;
+    padding-inline: 0;
 
     &:hover {
       @extend %button-slate-hover;

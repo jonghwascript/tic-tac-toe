@@ -19,25 +19,24 @@ p {
 }
 
 .c-main {
-  max-inline-size: 375px;
-}
-
-section:not(.c-round-result) {
-  display: none !important;
+  //375 ~ 460px
+  max-inline-size: clamp(23.4375rem, calc(325.886px + 13.097vw), 28.75rem);
+  margin: auto;
 }
 
 .c-container {
-  width: 100%;
   box-sizing: border-box;
+  width: 100%;
+  margin-block: auto;
   padding: 0;
-
 }
 
 // ------------------------------------------
 // NEW GAME
 // ------------------------------------------
 .c-new-game {
-  // border: 1px solid #000;
+  //mobile 32px, tablet 40px
+  --space: clamp(2rem, calc(1.523rem + 2.036vw), 2.5rem);
 }
 
 .c-new-game__header {
@@ -56,10 +55,19 @@ section:not(.c-round-result) {
     margin-inline: auto;
   }
 
-  h1 {
+  .c-new-game__title {
     @include font-style($text-preset-4, 700, 125%);
     color: $slate-300;
     text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+.c-mark-picker {
+  &__choice-icon {
+    width: 32px;
+    height: auto;
+    aspect-ratio: 1;
   }
 }
 
@@ -67,26 +75,23 @@ section:not(.c-round-result) {
   @include font-style($text-preset-5, 700, 130%);
   color: $slate-300;
   text-align: center;
+  text-transform: uppercase;
 }
 
 // ------------------------------------------
 // GAME BOARD
 // ------------------------------------------
 .c-game-board {
-  --space: 64px;
+  --space: 4rem; //64px
 }
 
 .c-game-board__header {
-  --space: 47px;
+  --space: 2.9375rem; //47px
   justify-content: flex-start;
-
-  >* {
-    // flex: 1;
-  }
 }
 
 .c-new-game__logo {
-  width: 72px;
+  width: 4.375rem; //70px
   height: auto;
 }
 
@@ -96,24 +101,40 @@ section:not(.c-round-result) {
   background-color: $slate-800;
   border-radius: 6px;
 
+  @include font-style($text-preset-5, 700, 130%);
+  color: $slate-300;
+
+  @include mq('tablet') {
+    @include font-style($text-preset-4, 700, 130%);
+  }
+
   .c-turn-indicator__icon {
-    margin-inline-end: 8px;
-    color: $slate-300;
     width: 16px;
     height: 16px;
+
+    @include mq('tablet') {
+      width: 20px;
+      height: 20px;
+    }
+
+    margin-inline-end: 8px;
+    color: $slate-300;
   }
 
   .c-turn-indicator__text {
-    @include font-style($text-preset-5, 700, 130%);
-    color: $slate-300;
+    text-transform: uppercase;
   }
 }
 
 .c-button--icon-restart {
   margin-inline-start: auto;
-  // inline-size: 40px;
-  width: 40px;
-  height: 40px;
+  width: clamp(2.5rem, calc(1.784rem + 3.053vw), 3.25rem); //40 ~ 52px
+  height: clamp(2.5rem, calc(1.784rem + 3.053vw), 3.25rem);
+
+  .c-button__icon {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .c-board-layout {
@@ -121,13 +142,16 @@ section:not(.c-round-result) {
 }
 
 .c-board {
-  grid-template-columns: repeat(auto-fit, minmax(min(95px, 100%), 1fr));
-  grid-template-rows: repeat(3, minmax(95px, 1fr));
+  // 작은 화면에서 보드가 가로로 넘치는 문제
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: none;
   gap: 20px;
 }
 
 
 .c-board__cell {
+  min-inline-size: 0;
+  aspect-ratio: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -140,8 +164,10 @@ section:not(.c-round-result) {
   &--o::after {
     content: '';
     position: absolute;
-    width: 40px;
-    height: 40px;
+    //기존 디자인 크기를 유지하되, 작은 칸에서는 칸 너비의 70% 이하로 제한
+    width: min(70%, clamp(2.5rem, calc(1.069rem + 6.107vw), 4rem)); //40 ~ 64xp
+    height: auto;
+    aspect-ratio: 1;
     background-image: url('../images/icon-o.svg');
     background-position: center center;
     background-repeat: no-repeat;
@@ -151,15 +177,43 @@ section:not(.c-round-result) {
   &--x::after {
     background-image: url('../images/icon-x.svg');
   }
+
+  //키보드 포커스 표시 개선 
+  &:focus-visible {
+    outline: 3px solid $neutral-000;
+    outline-offset: 3px;
+  }
+
+  @media (hover: hover) {
+    &:not(:disabled):hover {
+      background-color: $slate-850;
+    }
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  // 고대비 모드에서 칸경계가 사라짐
+  @media (forced-colors: active) {
+    border: 1px solid ButtonText;
+
+    &:focus-visible {
+      outline-color: Highlight;
+    }
+  }
 }
 
 .c-scores {
   --space: 20px;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 
   .c-score {
-    width: 96px;
-    height: 64px;
+    //내용물 무시하고 1:1 비율 맞추기
+    flex: 1 1 0;
+    //원래 간격을 주면 넘친다. 그래서 부모 사이즈에 강제로 맞춘다.
+    min-inline-size: 0;
+    min-block-size: clamp(4rem, calc(3.523rem + 2.036vw), 4.5rem);
     border-radius: 10px;
     background-color: $teal-400;
 
@@ -181,13 +235,21 @@ section:not(.c-round-result) {
   padding-block: 12px;
 
   .c-score__label {
-    @include font-style($text-preset-5, 700, 130%);
+    @include font-style($text-preset-6, 700, 130%);
     color: $slate-900;
+
+    @include mq('tablet') {
+      @include font-style($text-preset-5, 700, 130%);
+    }
   }
 
   .c-score__value {
-    @include font-style($text-preset-2, 700, 125%);
+    @include font-style($text-preset-3, 700, 125%);
     color: $slate-900;
+
+    @include mq('tablet') {
+      @include font-style($text-preset-2, 700, 130%);
+    }
   }
 }
 
@@ -266,10 +328,10 @@ section:not(.c-round-result) {
   text-align: center;
 }
 
-.c-restart-dialog__actions{
+.c-restart-dialog__actions {
   .c-button {
     min-width: 0;
-    flex : 1;
+    flex: 1;
   }
 }
 
