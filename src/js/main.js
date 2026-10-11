@@ -109,7 +109,7 @@
       const mark = state.board[index];
       cell.classList.toggle('c-board__cell--x', mark === 'X');
       cell.classList.toggle('c-board__cell--o', mark === 'O');
-      cell.disabled = Boolean(mark || state.result || cpuTurn);
+      cell.setAttribute('aria-disabled', String(Boolean(mark || state.result || cpuTurn)));
       cell.setAttribute('aria-label', `Row ${Math.floor(index / 3) + 1}, column ${index % 3 + 1}, ${mark || 'empty'}`);
     });
     for (const mark of ['X', 'O']) {
@@ -175,12 +175,6 @@
     save();
     render();
     scheduleCpu();
-    // Keep keyboard play moving after the activated square becomes disabled.
-    if (!state.result && cells.includes(document.activeElement)) {
-      const next = cells.find((cell) => !cell.disabled);
-      if (next) next.focus();
-      else restartButton.focus();
-    }
   }
 
   function resetRound(alternate) {
@@ -192,14 +186,12 @@
     save();
     render();
     scheduleCpu();
-    (cells.find((cell) => !cell.disabled) || restartButton).focus();
+    cells[0].focus();
   }
 
   hint.setAttribute('aria-live', 'polite');
   choices.forEach((choice) => {
     choice.addEventListener('change', updateMarkHint);
-    choice.setAttribute('aria-label', `Play as ${choice.value}`);
-    choice.parentElement.querySelector('svg').setAttribute('aria-hidden', 'true');
   });
   menu.querySelectorAll('.c-new-game__actions button').forEach((button) => {
     button.addEventListener('click', () => {
@@ -213,12 +205,10 @@
     });
   });
   cells.forEach((cell, index) => cell.addEventListener('click', () => {
+    if (cell.getAttribute('aria-disabled') === 'true') return;
     if (state && (state.mode === 'player' || state.turn === state.playerMark)) play(index);
   }));
   resultDialog.removeAttribute('close');
-  resultDialog.setAttribute('aria-labelledby', 'round-result-title');
-  winnerText.id = 'round-result-title';
-  tie.id = 'round-tie-title';
   // Require an explicit next-round or quit action for a completed round.
   resultDialog.addEventListener('cancel', (event) => event.preventDefault());
   nextButton.addEventListener('click', () => {

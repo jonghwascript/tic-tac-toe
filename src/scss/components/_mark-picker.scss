@@ -13,16 +13,16 @@
   .c-mark-picker__choice {
     flex: 1;
     max-inline-size: 100%;
-    color: $slate-900;
+    color: $slate-300;
     padding-block: 0.6956rem; //11.13px
-    background-color: #A8A8A8;
+    background-color: transparent;
     border-radius: 10px;
     cursor: pointer;
 
     &:has(.c-mark-picker__choice-input:checked) {
-      background-color: $slate-900;
-      color: #A8A8A8;
-      cursor: none;
+      background-color: $slate-300;
+      color: $slate-900;
+      cursor: default;
     }
 
     .c-mark-picker__choice-icon {
@@ -30,7 +30,7 @@
     }
 
     &:not(:has(.c-mark-picker__choice-input:checked)):hover {
-      background-color: $slate-100;
+      background-color: rgba($slate-300, 0.05);
     }
 
     &:has(.c-mark-picker__choice-input:focus-visible) {

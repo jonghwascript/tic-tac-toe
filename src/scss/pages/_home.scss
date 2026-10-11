@@ -45,8 +45,8 @@ p {
 }
 
 .c-new-game__logo {
-  width: 72px;
-  height: 32px;
+  width: 4.375rem; //70px
+  height: auto;
   margin-inline: auto;
 }
 
@@ -83,6 +83,7 @@ p {
   }
 
   .c-new-game__logo {
+    justify-self: start;
     margin-inline: 0;
   }
 }
@@ -92,12 +93,6 @@ p {
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 0.5rem;
-}
-
-.c-new-game__logo {
-  justify-self: start;
-  width: 4.375rem; //70px
-  height: auto;
 }
 
 .c-turn-indicator {
@@ -194,12 +189,12 @@ p {
   }
 
   @media (hover: hover) {
-    &:not(:disabled):hover {
+    &:not([aria-disabled="true"]):hover {
       background-color: $slate-850;
     }
   }
 
-  &:disabled {
+  &[aria-disabled="true"] {
     cursor: default;
   }
 
@@ -214,7 +209,7 @@ p {
 }
 
 .c-scores {
-  --space: 1.25rem; //20px
+  --space: 20px;
   flex-wrap: wrap;
 
   .c-score {
@@ -267,7 +262,9 @@ p {
 // ------------------------------------------
 .c-round-result {
   width: 100%;
-  padding-block: 2.75rem; //44px
+  max-inline-size: 100%;
+  max-block-size: calc(100dvh - 32px);
+  padding: 44px 24px;
   margin: auto;
   inset: 0;
   background-color: $slate-800;
@@ -285,9 +282,13 @@ p {
 }
 
 .c-round-result__winner {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
   font-size: $text-preset-2; // 1.5rem, 기본 24px
   align-items: center;
   margin-inline: auto;
+  max-inline-size: 100%;
 
   .c-round-result__icon {
     --space: 1em; // 아이콘과 글자 사이 24px
@@ -296,6 +297,8 @@ p {
   }
 
   .c-round-result__text {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
     @include font-style($text-preset-2, 700, 125%);
     color: $amber-400;
   }
@@ -311,16 +314,24 @@ p {
 }
 
 .c-round-result__actions {
-  --space: 1rem; //24px
+  --space: 16px;
   justify-content: center;
-  margin-inline: 3.1875rem; //51px
+  margin-inline: min(51px, 5vw);
+
+  .c-button {
+    flex: 0 1 auto;
+    inline-size: auto;
+    max-inline-size: 100%;
+    padding-inline: 16px;
+    overflow-wrap: anywhere;
+  }
 
   .c-button--small {
-    flex: 0 1 4.75rem;
+    min-inline-size: min(100%, 76px);
   }
 
   .c-button--medium {
-    flex: 0 1 9.125rem;
+    min-inline-size: min(100%, 146px);
   }
 }
 

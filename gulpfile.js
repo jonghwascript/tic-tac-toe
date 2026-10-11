@@ -9,6 +9,7 @@ const PRETTIER_GLOBS = [
   'src/**/*.html',
   'src/scss/**/*.scss',
   'src/js/**/*.js',
+  '!src/js/vendor/**',
   'gulpfile.js',
 ];
 const STATIC_FILES = [

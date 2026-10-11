@@ -68,11 +68,11 @@ Each board cell is a native button with a name describing its row, column, and c
 </button>
 ```
 
-Occupied cells use native `disabled`, which prevents activation and removes them from sequential keyboard focus. If occupied cells needed to remain focusable, `aria-disabled` would also require an explicit JavaScript activation guard.
+Occupied cells and cells locked during the CPU turn use `aria-disabled` with an explicit JavaScript activation guard. All nine cells remain in the tab order so players can inspect the position, and the activated cell retains focus while the CPU responds.
 
 The turn indicator combines `role="status"`, `aria-atomic="true"`, and visually hidden text naming the current mark. Score outputs are connected to their visible labels with `aria-labelledby`. Decorative SVGs are hidden from assistive technology; the restart button and logo receive their own accessible names.
 
-Native dialogs handle modal presentation. JavaScript selects the appropriate result title, closes any sample dialog state during initialization, and moves focus to an available cell or the restart button when a round begins. Selection hints use a polite live region. Actual screen reader announcements still require verification.
+Native dialogs handle modal presentation. JavaScript selects the appropriate result title, closes any sample dialog state during initialization, and moves focus to the first board cell when a round begins. Selection hints use a polite live region. Actual screen reader announcements still require verification.
 
 ### CSS: flexible layout and the cascade
 
@@ -129,7 +129,7 @@ Relative units alone do not prevent overflow. Large margins can consume too much
 
 The match state records the mode, Player 1's mark, starting mark, current turn, nine-cell board, round result, and cumulative scores. A completed round increments its score once and prevents further moves. Starting the next round alternates the starting mark; restarting preserves it.
 
-Rendering updates cell classes, disabled states, accessible names, turn graphics, score labels, and result messages together. This keeps the visible interface consistent with the stored state.
+Rendering updates cell classes, aria-disabled states, accessible names, turn graphics, score labels, and result messages together. This keeps the visible interface consistent with the stored state.
 
 ### JavaScript: a predictable computer opponent
 

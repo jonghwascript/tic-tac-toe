@@ -1,4 +1,5 @@
 <dialog class="c-round-result"
+    aria-labelledby="round-result-title"
     aria-live="assertive"
     close>
     <div class="c-round-result__layout l-stack">
@@ -10,9 +11,11 @@
                 <img class="l-icon c-round-result__icon"
                     src="./images/icon-o.svg"
                     alt="" />
-                <span class="c-round-result__text">takes the round</span>
+                <span id="round-result-title"
+                    class="c-round-result__text">takes the round</span>
             </p>
-            <p class="c-round-result__tie u-hidden">Round tied</p>
+            <p id="round-tie-title"
+                class="c-round-result__tie u-hidden">Round tied</p>
             <div class="c-round-result__actions l-cluster">
                 <button class="c-button c-button--small"
                     type="button">Quit
