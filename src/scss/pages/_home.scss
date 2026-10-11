@@ -5,3 +5,332 @@
 // 여러 곳에서 재사용하는 스타일은 components/에 둔다.
 // 섹션이 늘어나면 pages/_<섹션>.scss로 나누고 style.scss에 @use를 추가한다.
 // ------------------------------------------
+
+body {
+  background-color: $slate-900;
+}
+
+p {
+  max-inline-size: initial;
+}
+
+.c-main {
+  //375 ~ 460px
+  max-inline-size: clamp(23.4375rem, calc(325.886px + 13.097vw), 28.75rem);
+  margin: auto;
+}
+
+.c-container {
+  box-sizing: border-box;
+  width: 100%;
+  margin-block: auto;
+  padding: 0;
+}
+
+// ------------------------------------------
+// NEW GAME
+// ------------------------------------------
+.c-new-game {
+  --space: clamp(2rem, calc(1.523rem + 2.036vw), 2.5rem);
+}
+
+.c-new-game__header {
+  --padding: 1.5rem; //24px
+  border: 0;
+  background-color: $slate-800;
+}
+
+.c-app {
+  margin-block: auto;
+
+  .c-new-game__logo {
+    width: 72px;
+    height: 32px;
+  }
+
+  .c-new-game__title {
+    @include font-style($text-preset-4, 700, 125%);
+    color: $slate-300;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+.c-mark-picker {
+  &__choice-icon {
+    width: 32px;
+    height: auto;
+    aspect-ratio: 1;
+  }
+}
+
+.c-new-game__hint {
+  @include font-style($text-preset-5, 700, 130%);
+  color: $slate-300;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+// ------------------------------------------
+// GAME BOARD
+// ------------------------------------------
+.c-game-board {
+  --space: 4rem; //64px
+}
+
+.c-game-board__header {
+  --space: 2.9375rem; //47px
+  justify-content: space-between;
+}
+
+.c-new-game__logo {
+  width: 4.375rem; //70px
+  height: auto;
+}
+
+.c-turn-indicator {
+  align-items: center;
+  padding: 0.6875rem 0.9688rem;
+  background-color: $slate-800;
+  border-radius: 6px;
+
+  @include font-style($text-preset-5, 700, 130%);
+  color: $slate-300;
+
+  @include mq('tablet') {
+    @include font-style($text-preset-4, 700, 130%);
+  }
+
+  .c-turn-indicator__icon {
+    //em 값 = 원하는 px 크기 ÷ 해당 요소의 글꼴 크기(px)
+    //실제 px 크기 = em 값 × 글꼴 크기(px)
+    width: 1.142857em; // 16 ÷ 14
+    height: 1.142857em;
+    margin-inline-end: 0.571429em; // 8 ÷ 14
+
+    @include mq('tablet') {
+      width: 1.25em; // 20 ÷ 16
+      height: 1.25em;
+      margin-inline-end: 0.5em; // 8 ÷ 16
+    }
+
+    color: $slate-300;
+  }
+
+  .c-turn-indicator__text {
+    text-transform: uppercase;
+  }
+}
+
+.c-button--icon-restart {
+  width: clamp(2.5rem, calc(1.784rem + 3.053vw), 3.25rem); //40 ~ 52px
+  height: clamp(2.5rem, calc(1.784rem + 3.053vw), 3.25rem);
+
+  .c-button__icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.c-board-layout {
+  --space: 1.25rem; //20px
+}
+
+.c-board {
+  // 작은 화면에서 보드가 가로로 넘치는 문제
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: none;
+  gap: 1.25rem; //20px
+}
+
+
+.c-board__cell {
+  min-inline-size: 0;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $slate-800;
+  border-radius: 10px;
+  box-shadow: inset 0px -8px 0px 0px #10212A;
+  position: relative;
+
+  &--x::after,
+  &--o::after {
+    content: '';
+    position: absolute;
+    //기존 디자인 크기를 유지하되, 작은 칸에서는 칸 너비의 70% 이하로 제한
+    width: min(70%, clamp(2.5rem, calc(1.069rem + 6.107vw), 4rem)); //40 ~ 64xp
+    height: auto;
+    aspect-ratio: 1;
+    background-image: url('../images/icon-o.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  &--x::after {
+    background-image: url('../images/icon-x.svg');
+  }
+
+  //키보드 포커스 표시 개선
+  &:focus-visible {
+    outline: 3px solid $neutral-000;
+    outline-offset: 3px;
+  }
+
+  @media (hover: hover) {
+    &:not(:disabled):hover {
+      background-color: $slate-850;
+    }
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  // 고대비 모드에서 칸경계가 사라짐
+  @media (forced-colors: active) {
+    border: 1px solid ButtonText;
+
+    &:focus-visible {
+      outline-color: Highlight;
+    }
+  }
+}
+
+.c-scores {
+  --space: 1.25rem; //20px
+  flex-wrap: wrap;
+
+  .c-score {
+    //내용물 무시하고 1:1 비율 맞추기
+    flex: 1 1 0;
+    //원래 간격을 주면 넘친다. 그래서 부모 사이즈에 강제로 맞춘다.
+    min-inline-size: 0;
+    min-block-size: clamp(4rem, calc(3.523rem + 2.036vw), 4.5rem);
+    border-radius: 10px;
+    background-color: $teal-400;
+
+    &--ties {
+      background-color: $slate-300;
+    }
+
+    &--o {
+      background-color: $amber-400;
+    }
+  }
+}
+
+.c-score--o,
+.c-score--ties,
+.c-score--x {
+  gap: 0;
+  align-items: center;
+  padding-block: 0.75rem; //20px
+
+  .c-score__label {
+    @include font-style($text-preset-6, 700, 130%);
+    color: $slate-900;
+
+    @include mq('tablet') {
+      @include font-style($text-preset-5, 700, 130%);
+    }
+  }
+
+  .c-score__value {
+    @include font-style($text-preset-3, 700, 125%);
+    color: $slate-900;
+
+    @include mq('tablet') {
+      @include font-style($text-preset-2, 700, 130%);
+    }
+  }
+}
+
+// ------------------------------------------
+// Reuslt Dialog
+// ------------------------------------------
+.c-round-result {
+  width: 100%;
+  padding-block: 2.75rem; //44px
+  margin: auto;
+  inset: 0;
+  background-color: $slate-800;
+  border: 0;
+  text-align: center;
+
+  .c-round-result__message {
+    @include font-style($text-preset-5, 700, 125%);
+    color: $slate-300;
+  }
+}
+
+.c-round-result__layout {
+  --space: 1rem; //20px
+}
+
+.c-round-result__winner {
+  font-size: $text-preset-2; // 1.5rem, 기본 24px
+  align-items: center;
+  margin-inline: auto;
+
+  .c-round-result__icon {
+    --space: 1em; // 아이콘과 글자 사이 24px
+    width: 1.25em; // 30 ÷ 24
+    height: 1.25em;
+  }
+
+  .c-round-result__text {
+    @include font-style($text-preset-2, 700, 125%);
+    color: $amber-400;
+  }
+}
+
+.c-round-result__tie {
+  @include font-style($text-preset-1, 700, 120%);
+  color: $slate-300;
+}
+
+.c-round-result__inner-layout {
+  --space: 1.5rem; //24px
+}
+
+.c-round-result__actions {
+  --space: 1rem; //24px
+  justify-content: center;
+  margin-inline: 3.1875rem; //51px
+
+  .c-button--small {
+    flex: 0 1 4.75rem;
+  }
+
+  .c-button--medium {
+    flex: 0 1 9.125rem;
+  }
+}
+
+// ------------------------------------------
+// Restart Dialog
+// ------------------------------------------
+.c-restart-dialog {
+  width: 100%;
+  padding-block: 2.75rem; //44px
+  margin: auto;
+  inset: 0;
+  background-color: $slate-800;
+  border: 0;
+  text-align: center;
+}
+
+.c-restart-dialog__actions {
+  .c-button {
+    min-width: 0;
+    flex: 1;
+  }
+}
+
+.c-restart-dialog__title {
+  @include font-style($text-preset-2, 700, 120%);
+  color: $slate-300;
+}

@@ -2,11 +2,11 @@
 
 
 .c-mark-picker {
-  --padding: 8px;
+  --padding: 0.5rem; //8px
   gap: 0;
   border: 0;
-  padding-block: 9px;
-  padding-inline: 7.5px;
+  padding-block: 0.5625rem; //9px
+  padding-inline: 0.4688rem; //7.5px
   background-color: $slate-900;
   border-radius: 10px;
 
@@ -14,7 +14,7 @@
     flex: 1;
     max-inline-size: 100%;
     color: $slate-900;
-    padding-block: 11.13px;
+    padding-block: 0.6956rem; //11.13px
     background-color: #A8A8A8;
     border-radius: 10px;
     cursor: pointer;

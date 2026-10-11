@@ -2,14 +2,14 @@
 
 .c-button {
   inline-size: 100%;
-  padding-block-start: 16px;
-  padding-block-end: 26px;
-  padding-inline: 16px;
-  border-radius: 16px;
+  padding-block-start: 1rem;
+  padding-block-end: 1.625rem; //26px
+  padding-inline: 1rem;
+  border-radius: 1rem;
   background-color: $amber-400;
   box-shadow: inset 0px -8px 0px 0px #cc8b13;
   @include font-style($text-preset-3, 700, 125%);
-  letter-spacing: 1.25px;
+  letter-spacing: 0.05em; // 1px ÷ 기본 글꼴 20px
   color: $slate-900;
   cursor: pointer;
 
@@ -74,10 +74,11 @@
 }
 
 %button-compact {
-  padding-block: 16px;
+  padding-block: 1rem;
   border-radius: 6px;
   @include font-style($text-preset-4, 700, 125%);
   text-transform: uppercase;
+  letter-spacing: 0.0625em; // 1px ÷ compact 글꼴 16px
 }
 
 %button-slate-surface {
