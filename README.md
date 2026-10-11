@@ -1,112 +1,153 @@
-# Frontend Mentor - Tic Tac Toe
+# Frontend Mentor - Tic Tac Toe solution
 
-![Design preview for the Tic Tac Toe coding challenge](./preview.jpg)
+A browser-based Tic Tac Toe game built with semantic HTML, CSS authored in SCSS, and vanilla JavaScript. Players can share a device for a two-player match or play against a computer that uses minimax to choose its moves.
 
-## Welcome! 👋
+## Table of contents
 
-Thanks for purchasing this premium Frontend Mentor coding challenge.
+- Overview
+- My process
+- What I learned
+- Continued development
 
-[Frontend Mentor](https://www.frontendmentor.io) challenges help you improve your coding skills by building realistic projects. These premium challenges are perfect portfolio pieces, so please feel free to use what you create in your portfolio to show others.
+## Overview
 
-**To do this challenge, you need a strong understanding of HTML, CSS, and JavaScript.**
+### The challenge
 
-## The challenge
+The project implements the Frontend Mentor Tic Tac Toe challenge, including local multiplayer, solo play, browser persistence, and a computer opponent that can block threats and choose winning moves.
 
-Your challenge is to build out this Tic Tac Toe game and get it looking as close to the design as possible.
+The interface uses a mobile-first layout with hover feedback and visible keyboard focus styles. Visual accuracy and accessibility require separate browser checks beyond successful compilation.
 
-You can use any tools you like to help you complete the challenge. So if you've got something you'd like to practice, feel free to give it a go.
+### Game behavior
 
-Your users should be able to:
+- Choose X or O for Player 1. The other mark belongs to Player 2 or the CPU.
+- X starts the first round. The starting mark alternates between O and X in subsequent rounds.
+- Track X wins, O wins, and ties across rounds.
+- Show a result dialog after a win or tie. Next round starts another round; Quit returns to the menu and clears the saved match.
+- Open a confirmation dialog before restarting. Confirmation clears the current board while preserving scores and the current round's starting mark; cancellation resumes play.
+- Restore the board, scores, selected mark, and round state after a refresh when browser storage is available.
+- Update the selection hint immediately: X displays `You picked X. You go first.`; O displays `You picked O. X goes first.`
 
-- View the optimal layout for the game depending on their device's screen size
-- See hover states for all interactive elements on the page
-- Play the game either solo vs the computer or multiplayer against another person
-- **Bonus 1**: Save the game state in the browser so that it’s preserved if the player refreshes their browser
-- **Bonus 2**: Instead of having the computer randomly make its moves, try making it clever so it’s proactive in blocking your moves and trying to win
+### Screenshot
 
-### Expected behaviour
+![Tic Tac Toe game screenshot](./screenshot.jpg)
 
-- You can choose to make the default screen either the new game menu or the solo player game board. Note that we're using the solo player game board for the design screenshot, so if you choose the new game menu it won't match up in the design comparison slider. This isn't a big deal, but is something worth considering.
-- On the new game screen, whichever mark isn't selected for the first player is automatically assigned to the second player when the game is started.
-- The first turn of the first round is always played by whoever is playing as X. For every following round, the first turn alternates between O and X.
-- After a round, if the player chooses to quit the game, they should be taken back to the new game menu.
-- If the restart icon in the top right is clicked, the "Restart game?" modal should show and allow the player to reset the game or cancel and continue to play.
+### Links
 
-### Want some support on the challenge?
+- Solution URL: [Repository](https://github.com/jonghwascript/tic-tac-toe)
+- Live Site URL: [Live site](https://jonghwascript.github.io/tic-tac-toe/)
 
-[Join our community](https://www.frontendmentor.io/community) and ask questions in the **#help** channel.
+## My process
 
-## Where to find everything
+### Built with
 
-Your task is to build out the project to the design file provided. You can download the Figma design file on the platform. **Please be sure not to share it with anyone else.** The design download comes with a `README.md` file as well to help you get set up.
+- Semantic HTML, native radio inputs, buttons, and dialog elements
+- CSS custom properties and SCSS variables, mixins, and placeholders
+- CSS Grid for the board and Flexbox for component layout
+- Mobile-first media queries and logical properties
+- rem typography and spacing, with em for text-related icon sizes and letter spacing
+- Vanilla JavaScript, DOM events, localStorage, and minimax
 
-All the required assets for this project are in the `/assets` folder. The assets are already exported for the correct screen size and optimized. Some images are reusable at multiple screen sizes. So if you don't see an image in a specific folder, it will typically be in another folder for that page.
+### Implementation approach
 
-The design system in the design file will give you more information about the various colors, fonts, and styles used in this project. Our fonts always come from [Google Fonts](https://fonts.google.com/).
+The interface is divided into a new-game menu, game board, and dialogs. HTML provides native controls and accessible names. CSS manages layout, component appearance, and interaction states. JavaScript maintains a single match state and renders the board, turn indicator, scores, and dialogs from that state.
 
-## Using AI coding assistants
+Page styles live in `src/scss/pages/_home.scss`. The SCSS entry point imports the base, layout, component, page, and utility modules, with utilities last. Class prefixes distinguish layout (`l-`), components (`c-`), and utilities (`u-`).
 
-We've included two files to help you if you're using AI coding assistants (like Claude, GitHub Copilot, Cursor, etc.) while working on this challenge:
+## What I learned
 
-- `AGENTS.md` - Contains detailed instructions for AI assistants on how to help you with this challenge. It's tailored to this challenge's difficulty level, so the AI will provide guidance appropriate to your learning stage—offering more support for beginner challenges and encouraging more independence on advanced ones.
-- `CLAUDE.md` - A pointer file that directs Claude-based tools to the AGENTS.md instructions.
+### HTML: native controls and accessible state
 
-**How to use them:** You don't need to do anything! These files are automatically detected by most AI coding tools. The AI will read them and adjust its behavior to be a better learning partner—guiding you toward solutions rather than just giving you the answers.
+X and O are mutually exclusive choices, so they use native radio inputs. Visually hiding an input with `.u-sr-only` preserves keyboard access, while the associated label provides the visual selection and focus treatment.
 
-**Note:** These files are designed to help you *learn*, not to do the work for you. The AI is instructed to ask questions, give hints, and explain concepts rather than writing complete solutions.
+Each board cell is a native button with a name describing its row, column, and current mark. JavaScript keeps that name synchronized with the visible state. The board uses `role="group"`; CSS Grid controls its visual layout without requiring an ARIA grid interaction model.
 
-## Building your project
+```html
+<button class="c-board__cell"
+  type="button"
+  aria-label="Row 1, column 2, empty">
+</button>
+```
 
-Feel free to use any workflow that you feel comfortable with. Below is a suggested process, but do not feel like you need to follow these steps:
+Occupied cells use native `disabled`, which prevents activation and removes them from sequential keyboard focus. If occupied cells needed to remain focusable, `aria-disabled` would also require an explicit JavaScript activation guard.
 
-1. Separate the `starter-code` from the rest of this project and rename it to something meaningful for you. Initialize the codebase as a public repository on [GitHub](https://github.com/). Creating a repo will make it easier to share your code with the community if you need help. If you're not sure how to do this, [have a read-through of this Try Git resource](https://try.github.io/). **⚠️ IMPORTANT ⚠️: There are already a couple of `.gitignore` files in this project. Please do not remove them or change the content of the files. If you create a brand new project, please use the `.gitignore` files provided in your new codebase. This is to avoid the accidental upload of the Figma design file to GitHub. With these premium challenges, please be sure not to share the design files in your GitHub repo. Thanks!**
-2. Configure your repository to publish your code to a web address. This will also be useful if you need some help during a challenge as you can share the URL for your project with your repo URL. There are a number of ways to do this, and we provide some recommendations below.
-3. Look through the designs to start planning out how you'll tackle the project. This step is crucial to help you think ahead for CSS classes to create reusable styles.
-4. Before adding any styles, structure your content with HTML. Writing your HTML first can help focus your attention on creating well-structured content.
-5. Write out the base styles for your project, including general content styles, such as `font-family` and `font-size`.
-6. Start adding styles to the top of the page and work down. Only move on to the next section once you're happy you've completed the area you're working on.
+The turn indicator combines `role="status"`, `aria-atomic="true"`, and visually hidden text naming the current mark. Score outputs are connected to their visible labels with `aria-labelledby`. Decorative SVGs are hidden from assistive technology; the restart button and logo receive their own accessible names.
 
-## Deploying your project
+Native dialogs handle modal presentation. JavaScript selects the appropriate result title, closes any sample dialog state during initialization, and moves focus to an available cell or the restart button when a round begins. Selection hints use a polite live region. Actual screen reader announcements still require verification.
 
-As mentioned above, there are many ways to host your project for free. Our recommended hosts are:
+### CSS: flexible layout and the cascade
 
-- [GitHub Pages](https://pages.github.com/)
-- [Vercel](https://vercel.com/)
-- [Netlify](https://www.netlify.com/)
+Grid tracks need `minmax(0, 1fr)` to shrink below their automatic content minimum. Board cells also use `min-inline-size: 0` and a square aspect ratio. Marks are capped at 70% of a cell's width so they can fit smaller cells.
 
-You can host your site using one of these solutions or any of our other trusted providers. [Read more about our recommended and trusted hosts](https://www.frontendmentor.io/guides/hosting-your-solution).
+```scss
+.c-board {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
 
-## Create a custom `README.md`
+.c-board__cell {
+  min-inline-size: 0;
+  aspect-ratio: 1;
+}
+```
 
-We strongly recommend overwriting this `README.md` with a custom one. We've provided a template inside the [`README-template.md`](./README-template.md) file in this starter code.
+Score cards use `flex: 1 1 0` and `min-inline-size: 0` to share available width. A minimum block size lets their height grow when labels wrap. Shrinking the cards does not guarantee that long labels or scores fit; enlarged text needs separate checks.
 
-The template provides a guide for what to add. A custom `README` will help you explain your project and reflect on your learnings. Please feel free to edit our template as much as you like.
+Sass places selectors extended with `@extend` at the placeholder's declaration. Shared variant placeholders appear after base button rules so their declarations can override the base styles. The `.u-hidden` utility provides explicit hiding without depending on a weaker tag selector.
 
-Once you've added your information to the template, delete this file and rename the `README-template.md` file to `README.md`. That will make it show up as your repository's README file.
+Enabled cells receive hover feedback only on devices that support hover. Focus outlines, forced-color borders, and system focus colors provide additional visual cues, but the presence of these styles does not prove accessibility conformance.
 
-## Submitting your solution
+### CSS: choosing rem, em, and px
 
-Submit your solution on the platform for the rest of the community to see. Follow our ["Complete guide to submitting solutions"](https://www.frontendmentor.io/guides/how-to-submit-solutions) for tips on how to do this.
+Units are chosen according to what should scale when the user increases the font size.
 
-Remember, if you're looking for feedback on your solution, be sure to ask questions when submitting it. The more specific and detailed you are with your questions, the higher the chance you'll get valuable feedback from the community.
+| Unit | Use in this project | Reference |
+| --- | --- | --- |
+| rem | Font sizes, component spacing, padding, and selected dimensions | Root font size |
+| em | Text-adjacent icons, icon gaps, and button letter spacing | The element's own font size |
+| em in media queries | Responsive breakpoints | Browser default font size |
+| px | Borders, focus outlines and offsets, shadows, and visually hidden 1px areas | Fixed CSS length |
+| %, fr, and viewport units | Available space and fluid layout | Parent or viewport dimensions |
 
-**⚠️ IMPORTANT ⚠️: With these premium challenges, please be sure not to upload the design file to GitHub when you're submitting to the platform and sharing it around. If you've created a brand new project, the easiest way to do that is to copy across the `.gitignore` provided in this starter project.**
+For a design calibrated to a 16px root, divide the design's pixel value by 16 to obtain rem. Actual rem dimensions continue to depend on the root font size.
 
-## Sharing your solution
+For ordinary dimensions and spacing:
 
-There are multiple places you can share your solution:
+```text
+em value = desired pixel size / the element's font size in pixels
+actual pixel size = em value * the element's font size in pixels
+```
 
-1. Share your solution page in the **#finished-projects** channel of the [community](https://www.frontendmentor.io/community).
-2. Share on [X (formerly Twitter)](https://x.com/frontendmentor) and mention **@frontendmentor**, including the repo and live URLs in your post. We'd love to take a look at what you've built and help share it around.
-3. Share your solution on [LinkedIn](https://www.linkedin.com/company/frontend-mentor/).
-4. Blog about your experience building your project. Writing about your workflow, technical choices, and talking through your code is a brilliant way to reinforce what you've learned. Great platforms to write on are [dev.to](https://dev.to/), [Hashnode](https://hashnode.com/), and [CodeNewbie](https://community.codenewbie.org/).
+A 20px icon next to a 16px font is `1.25em`. The same value becomes 30px when that element's font size is 24px. The em unit on `font-size` is different: it uses the parent's font size.
 
-We provide templates to help you share your solution once you've submitted it on the platform. Please do edit them and include specific questions when you're looking for feedback.
+The turn icon uses `1.142857em` at a 14px font and `1.25em` at a 16px font. Result icons inherit a 1.5rem font from their parent and use `1.25em` for their dimensions. Button letter spacing is `0.05em` for the default 20px font and `0.0625em` for compact buttons with a 16px font.
 
-The more specific you are with your questions the more likely it is that another member of the community will give you feedback.
+Breakpoint tokens retain the design values of 768px and 1024px; the media-query mixin converts them to 48em and 64em. Changing only the root font size does not reproduce a change to the browser's default font setting for these queries.
 
-## Got feedback for us?
+Relative units alone do not prevent overflow. Large margins can consume too much space on narrow screens, so viewport-limited spacing and wrapping should be evaluated where needed.
 
-We love receiving feedback! We're always looking to improve our challenges and our platform. So if you have anything you'd like to mention, please email hi[at]frontendmentor[dot]io.
+### JavaScript: game state and rendering
 
-**Have fun building!** 🚀
+The match state records the mode, Player 1's mark, starting mark, current turn, nine-cell board, round result, and cumulative scores. A completed round increments its score once and prevents further moves. Starting the next round alternates the starting mark; restarting preserves it.
+
+Rendering updates cell classes, disabled states, accessible names, turn graphics, score labels, and result messages together. This keeps the visible interface consistent with the stored state.
+
+### JavaScript: a predictable computer opponent
+
+Minimax explores the remaining legal moves and evaluates terminal boards. Wins score positively, losses negatively, and ties score zero from the CPU's perspective. Depth adjustments favor faster wins and delay unavoidable losses.
+
+The CPU acts after a short timer. Human input is blocked during its turn. Opening restart confirmation cancels the pending timer; closing it schedules a move again when appropriate. Round resets and quitting also clear pending moves.
+
+### JavaScript: persistence and recovery
+
+The match is stored under `tic-tac-toe-v1` in localStorage. Restoration checks the mode, marks, board shape, score values, move counts, turn, and result before accepting the saved state. Malformed data is ignored, and storage failures leave the current game playable.
+
+After restoration, the selected radio and its hint are synchronized with the restored player mark. Completed rounds reopen their result dialog without adding to the score again.
+
+## Continued development
+
+- Compare computed styles and element sizes after the relative-unit changes, including both sides of each breakpoint.
+- Check narrow screens, long scores, landscape layouts, browser default font changes, and 200% text enlargement.
+- Recheck the final interface in Chrome and Firefox, including dialog focus, keyboard navigation, screen reader announcements, and Windows high-contrast mode.
+- Review the result dialog's horizontal margins so enlarged text retains enough room for its buttons.
+
+Earlier Chrome checks covered wins, ties, scores, alternating starters, restart confirmation and cancellation, quitting, refresh restoration, CPU timing, and selection hints. A separate CPU logic check covered 1,226 terminal paths across both CPU marks and both starting marks without a CPU loss. These checks describe the implementation at the time they ran; they do not establish visual accuracy or full accessibility after subsequent CSS changes.
