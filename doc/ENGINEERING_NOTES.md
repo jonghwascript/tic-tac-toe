@@ -1,34 +1,34 @@
-# Engineering Notes
+# 개발 기록
 
-## Gulp output
+## Gulp 생성 결과
 
-- BrowserSync serves `dist/` only. A page must be handled by a Gulp task before it appears there.
-- The current HTML task copies `src/pages/*.html` directly to `dist/`; it does not compile Pug files.
-- Builds intentionally do not clean `dist/`. Matching outputs are overwritten, but outputs whose sources were removed can remain stale.
+- BrowserSync는 `dist/`만 제공한다. 페이지가 이 폴더에 나타나려면 먼저 Gulp 작업으로 처리해야 한다.
+- 현재 HTML 작업은 `src/pages/*.html`을 파일 포함 처리 후 `dist/`에 생성하며, Pug 파일은 컴파일하지 않는다.
+- 빌드는 의도적으로 `dist/`를 정리하지 않는다. 같은 경로의 결과는 덮어쓰지만, 원본이 삭제된 결과 파일은 오래된 상태로 남을 수 있다.
 
-## Sass cascade
+## Sass 캐스케이드
 
-- Sass `@extend` emits the extended selector group where the placeholder is declared. If a variant must override a component's base declarations, place the shared placeholder after the base rules so the generated variant declarations come later in the cascade.
-- A type selector such as `section` loses to a class selector such as `.l-stack`. Use the existing `.u-hidden` utility when an element must be forcibly hidden; do not rely on a global `section { display: none; }` rule.
+- Sass의 `@extend`는 확장된 선택자 묶음을 플레이스홀더가 선언된 위치에 출력한다. 변형 스타일이 컴포넌트의 기본 선언을 덮어써야 한다면, 공통 플레이스홀더를 기본 규칙 뒤에 배치해 변형 선언이 캐스케이드에서 나중에 나오게 한다.
+- `section` 같은 태그 선택자는 `.l-stack` 같은 클래스 선택자보다 우선순위가 낮다. 요소를 확실히 숨겨야 할 때는 기존 `.u-hidden` 유틸리티를 사용하고, 전역 `section { display: none; }` 규칙에 의존하지 않는다.
 
-## Single-choice controls
+## 단일 선택 컨트롤
 
-- Mutually exclusive X/O selection is a radio group, not a pair of toggle buttons. Keep the native radios focusable with `.u-sr-only`, use `checked` for the initial selection, and style checked/focus-visible states from the associated label.
+- X/O처럼 하나만 고르는 선택은 토글 버튼 두 개가 아니라 라디오 그룹으로 구현한다. 네이티브 라디오는 `.u-sr-only`로 시각적으로 숨기면서 포커스를 유지하고, 초기 선택에는 `checked`를 사용한다. 연결된 라벨을 통해 선택 상태와 키보드 포커스 상태를 꾸민다.
 
-## Icons that follow text size
+## 글자 크기에 맞춰지는 아이콘
 
-- Reuse `.l-icon` from `src/scss/layout/_every-layout.scss`: it sets width and height to `0.75em`, then overrides them with `1cap` in supporting browsers to match the font's capital height.
-- Keep `class="c-turn-indicator__icon l-icon"` on the SVG and remove the component's fixed `width: 16px` and `height: 16px` overrides so the layout pattern controls its size.
-- Put the shared font settings and their responsive changes on `.c-turn-indicator`, rather than only on `.c-turn-indicator__text`. The SVG and text then inherit the same font settings, which determine the icon's `em` and `cap` sizes. Keep text-only styling such as `text-transform` on the text element.
-- Let `.l-with-icon .l-icon` control spacing. Remove the component's fixed `margin-inline-end: 8px` override and set `--space: 0.5em` on `.c-turn-indicator` when the gap should scale with its font size. This is also the layout pattern's default gap when `--space` is not supplied.
+- `src/scss/layout/_every-layout.scss`의 `.l-icon`을 재사용한다. 너비와 높이를 `0.75em`으로 지정하고, 지원하는 브라우저에서는 글꼴의 대문자 높이에 맞추도록 `1cap`으로 덮어쓴다.
+- SVG의 `class="c-turn-indicator__icon l-icon"`은 유지한다. 공통 레이아웃 규칙으로 크기를 제어하려면 컴포넌트의 고정 `width: 16px`, `height: 16px` 재정의를 제거한다.
+- 공통 글꼴 설정과 반응형 변경은 `.c-turn-indicator__text`에만 지정하지 말고 `.c-turn-indicator`에 지정한다. 그러면 SVG와 텍스트가 같은 글꼴 설정을 상속해 아이콘의 em·cap 크기를 결정한다. `text-transform`처럼 텍스트에만 필요한 스타일은 텍스트 요소에 유지한다.
+- `.l-with-icon .l-icon`으로 간격을 제어한다. 간격을 글꼴에 비례시키려면 컴포넌트의 고정 `margin-inline-end: 8px` 재정의를 제거하고 `.c-turn-indicator`에 `--space: 0.5em`을 지정한다. 이는 `--space`가 제공되지 않을 때 공통 레이아웃 규칙이 사용하는 기본 간격이기도 하다.
 
-## Score cards on narrow screens
+## 좁은 화면의 점수 카드
 
-- To keep three score cards in one row at a 375px viewport, use `flex-wrap: nowrap` on `.c-scores`, and `flex: 1 1 0` with `min-inline-size: 0` on `.c-score`. Remove the card's explicit width so the cards share the available width after gaps.
-- `flex-wrap: wrap` with a preferred card basis can move a card to a second row when the available container width is smaller than the combined card widths and gaps. Even with a zero basis, automatic minimum sizes can constrain the cards.
-- Replace the card's explicit height with `min-block-size: clamp(4rem, calc(3.523rem + 2.036vw), 4.5rem)` so its height can grow when labels wrap or scores need more room. Do not also declare the equivalent `min-height` in the horizontal writing mode.
-- `rem` sizes grow with the root font size, but that alone does not prevent overflow. Removing the automatic minimum width allows cards to shrink; it does not guarantee that all text will fit. Check long scores and label wrapping, and use `overflow-wrap` if unbroken content needs to wrap.
-- Treat the one-row layout at the default font size separately from enlarged text. Verify the 375px layout and 200% text enlargement in a browser; if the content cannot fit comfortably, allow wrapping or a vertical layout in that state. These are implementation guidelines, not a claim that those browser checks have passed.
+- 375px 화면에서 점수 카드 세 개를 한 줄에 유지하려면 `.c-scores`에 `flex-wrap: nowrap`, `.c-score`에 `flex: 1 1 0`과 `min-inline-size: 0`을 지정한다. 카드의 명시적 너비를 제거해 간격을 제외한 가용 너비를 나눠 갖게 한다.
+- 카드의 선호 너비와 간격 합계보다 컨테이너가 좁으면 `flex-wrap: wrap`에 의해 카드가 다음 줄로 이동할 수 있다. 기본 크기가 0이어도 자동 최소 크기가 축소를 제한할 수 있다.
+- 카드의 명시적 높이를 `min-block-size: clamp(4rem, calc(3.523rem + 2.036vw), 4.5rem)`으로 바꿔 라벨이 줄바꿈되거나 점수에 공간이 더 필요할 때 높이가 늘어나게 한다. 가로 쓰기 모드에서 같은 의미의 `min-height`를 중복 선언하지 않는다.
+- rem 크기는 루트 글꼴에 따라 커지지만, 그것만으로 넘침을 막지는 못한다. 자동 최소 너비를 제거하면 카드가 줄어들 수 있으나 모든 글자가 들어간다는 보장은 없다. 긴 점수와 라벨 줄바꿈을 확인하고, 끊기지 않는 내용이 줄바꿈되어야 한다면 `overflow-wrap`을 사용한다.
+- 기본 글꼴에서의 한 줄 배치와 확대된 텍스트를 구분해 검증한다. 브라우저에서 375px 배치와 텍스트 200% 확대를 확인하고, 내용이 충분히 들어가지 않으면 해당 상태에서 줄바꿈이나 세로 배치를 허용한다. 이는 구현 지침이며 해당 브라우저 검사가 통과했다는 뜻은 아니다.
 
 ```scss
 .c-scores {
@@ -37,36 +37,130 @@
   .c-score {
     flex: 1 1 0;
     min-inline-size: 0;
-    // Remove the existing width and height declarations.
+    // 기존 width와 height 선언을 제거한다.
     min-block-size: clamp(4rem, calc(3.523rem + 2.036vw), 4.5rem);
   }
 }
 ```
 
-## Game board accessibility improvements
+## 게임 보드 접근성 개선
 
-### Implemented markup and styles
+### 구현한 마크업과 스타일
 
-- `src/pages/components/game-board.html`: give the restart button `aria-label="Restart game"`. Hide its decorative SVG with `aria-hidden="true"` and `focusable="false"`, and use `fill="currentColor"` so the icon follows the button's text color.
-- Use `role="group"` with `aria-label="Tic Tac Toe board"` and native buttons for the nine cells. Remove `role="gridcell"`. CSS Grid controls visual layout independently of ARIA roles. A future ARIA grid implementation would also need row structure and managed keyboard navigation.
-- Name each cell by row, column, and current state, for example `Row 1, column 1, O` or `Row 2, column 3, empty`. Keep these names synchronized with the visible marks when game logic is implemented.
-- The turn indicator uses `role="status"`, `aria-atomic="true"`, and visually hidden text such as `X's ` before `Turn`. Its SVG is decorative. The current markup exposes whose turn it is; actual change announcements still require dynamic updates and screen reader verification.
-- Connect each score output to its visible label with `aria-labelledby` and the unique IDs `score-x-label`, `score-ties-label`, and `score-o-label`. Keep the numeric content. Do not add redundant status roles or live regions to native `output` elements.
-- `src/pages/components/logo.html`: replace the SVG's ineffective `alt` attribute with `role="img"` and `aria-label="Tic Tac Toe"`; keep `focusable="false"`.
-- `src/scss/style.scss`: give board cells a white `:focus-visible` outline with an offset. Apply hover feedback only to enabled cells under `@media (hover: hover)`, and use `cursor: default` for disabled cells. Hover feedback improves usability but its absence alone is not an accessibility failure.
-- In `@media (forced-colors: active)`, add a cell border using `ButtonText` and use `Highlight` for the focus outline. Verify both cell boundaries and X/O visibility; the presence of these rules does not establish high-contrast compatibility by itself.
-- Use `repeat(3, minmax(0, 1fr))` for board columns, remove explicit row sizing with `grid-template-rows: none`, and set `min-inline-size: 0` and `aspect-ratio: 1` on cells. Limit X/O pseudo-element width with `min(70%, clamp(2.5rem, calc(1.069rem + 6.107vw), 4rem))`. The 70% cap is a design allowance, not an accessibility threshold.
+- `src/pages/components/game-board.html`: 재시작 버튼에 `aria-label="Restart game"`을 제공한다. 장식용 SVG는 `aria-hidden="true"`와 `focusable="false"`로 숨기고, `fill="currentColor"`를 사용해 버튼의 글자 색을 따른다.
+- 보드에는 `role="group"`과 `aria-label="Tic Tac Toe board"`를 사용하고, 아홉 칸은 네이티브 버튼으로 구현한다. `role="gridcell"`은 제거한다. CSS Grid는 ARIA 역할과 독립적으로 시각적 배치를 제어한다. 나중에 ARIA 그리드를 구현한다면 행 구조와 키보드 탐색 관리도 필요하다.
+- 각 칸은 행·열·현재 상태로 이름을 제공한다. 예시는 `Row 1, column 1, O` 또는 `Row 2, column 3, empty`이다. 게임 로직 구현 시 이 이름을 보이는 말과 동기화한다.
+- 턴 표시에는 `role="status"`, `aria-atomic="true"`를 사용하고, `Turn` 앞에 `X's ` 같은 시각적으로 숨긴 텍스트를 둔다. SVG는 장식이다. 이 단계의 마크업은 누구 차례인지 제공하지만, 실제 변경 알림에는 동적 갱신과 스크린 리더 검증이 필요하다.
+- 점수 출력은 `aria-labelledby`와 고유 ID인 `score-x-label`, `score-ties-label`, `score-o-label`로 보이는 라벨에 연결한다. 숫자 내용은 유지한다. 네이티브 `output` 요소에 중복 상태 역할이나 라이브 영역을 추가하지 않는다.
+- `src/pages/components/logo.html`: SVG에서 효과가 없는 `alt` 대신 `role="img"`와 `aria-label="Tic Tac Toe"`를 사용하고, `focusable="false"`는 유지한다.
+- 당시 `src/scss/style.scss`에 있던 보드 스타일: 칸에 간격을 둔 흰색 `:focus-visible` 외곽선을 제공한다. `@media (hover: hover)` 안에서 활성 칸에만 호버 피드백을 적용하고, 비활성 칸에는 `cursor: default`를 지정한다. 호버 피드백은 사용성을 개선하지만, 없다는 이유만으로 접근성 실패라고 판단하지 않는다. 현재 페이지 스타일은 `src/scss/pages/_home.scss`에 있다.
+- `@media (forced-colors: active)`에서는 `ButtonText`로 칸 테두리를 추가하고 포커스 외곽선에 `Highlight`를 사용한다. 칸 경계와 X/O 표시를 모두 확인해야 하며, 규칙이 있다는 사실만으로 고대비 호환성을 보장하지 않는다.
+- 보드 열에 `repeat(3, minmax(0, 1fr))`을 사용한다. `grid-template-rows: none`으로 명시적 행 크기를 제거하고 칸에 `min-inline-size: 0`과 `aspect-ratio: 1`을 지정한다. X/O 가상 요소의 너비는 `min(70%, clamp(2.5rem, calc(1.069rem + 6.107vw), 4rem))`으로 제한한다. 70% 제한은 디자인상 여유이며 접근성 기준값은 아니다.
 
-### Intentional styling samples and deferred behavior
+### 의도적으로 유지한 스타일링 예시와 당시 보류한 동작
 
-- Keep the sample O in the first cell and X in the third cell, including their `disabled` attributes, while styling. The user explicitly excluded clearing these samples from the current work.
-- Native `disabled` prevents activation and removes occupied cells from sequential keyboard focus. If occupied cells must remain focusable, use `aria-disabled` together with explicit JavaScript activation guards instead; ARIA alone does not block input.
-- Game logic remains deferred: placing marks, updating cell names and disabled states, changing the turn icon and text together, restricting input during the CPU turn, and resetting states for a new round.
-- Restart and result dialog behavior also needs implementation and verification, including opening, closing, initial focus, and returning focus to a suitable control.
+- 스타일링 단계에서는 첫 칸의 O와 세 번째 칸의 X 예시 및 `disabled` 속성을 유지한다. 당시 사용자가 예시 제거를 작업 범위에서 명시적으로 제외했다.
+- 네이티브 `disabled`는 실행을 막고 사용 중인 칸을 순차 키보드 포커스에서 제외한다. 사용 중인 칸에도 포커스가 필요하다면 `aria-disabled`와 JavaScript 실행 차단을 함께 사용한다. ARIA만으로 입력이 차단되지는 않는다.
+- 당시 게임 로직은 보류 상태였다. 말 배치, 칸 이름과 비활성 상태 갱신, 턴 아이콘·텍스트 동기화, CPU 턴 입력 제한, 새 라운드 상태 초기화가 대상이었다. 이후 구현 결과는 아래 대화 정리 절에 기록했다.
+- 당시 재시작·결과 대화상자의 열기·닫기·초기 포커스·적절한 컨트롤로의 포커스 복원도 구현과 검증이 필요했다.
 
-### Verification status
+### 당시 검증 상태
 
-- Verified by source inspection: the markup and styles listed above are present. The user's accessibility-tree screenshot confirmed the board group and nine named buttons at that stage. The user reported checking the focus and hover changes.
-- The earlier Chrome review used a board-only render at 375px and 768px. Before the layout fix, changing the root font from 16px to 32px at 375px produced 616px of board content width. This was a root-font simulation, not a browser text-zoom test or validation of the final layout.
-- Still unverified by the agent after the latest changes: the complete built page in Chrome and Firefox, 375px/tablet/desktop layouts, 200% text enlargement, complete keyboard navigation and activation, screen reader announcements, and actual Windows high-contrast mode. DevTools forced-colors emulation is a separate check from the operating system's high-contrast mode.
-- Source changes and an accessibility tree do not establish complete accessibility conformance. Recheck the final build and affected states before reporting them as passed.
+- 소스 검토로 위 마크업과 스타일의 존재를 확인했다. 사용자의 접근성 트리 스크린샷은 당시 보드 그룹과 이름이 있는 아홉 버튼을 확인해 주었다. 사용자는 포커스·호버 변경을 확인했다고 보고했다.
+- 이전 Chrome 검토는 375px과 768px에서 보드만 렌더링한 화면을 사용했다. 배치 수정 전에는 375px에서 루트 글꼴을 16px에서 32px로 변경하자 보드 내용 너비가 616px이 됐다. 이는 루트 글꼴 변경 모의 검사이며 브라우저 텍스트 확대 검사나 최종 배치 검증은 아니다.
+- 당시 최신 변경 이후 에이전트가 검증하지 않은 항목: Chrome·Firefox 전체 빌드 페이지, 모바일·태블릿·데스크톱 배치, 텍스트 200% 확대, 전체 키보드 탐색과 실행, 스크린 리더 알림, 실제 Windows 고대비 모드. 개발자 도구의 강제 색상 모의 검사는 운영체제 고대비 모드 검사와 구분한다.
+- 소스 변경과 접근성 트리만으로 완전한 접근성 준수를 보장하지 않는다. 통과로 보고하기 전에 최종 빌드와 영향받는 상태를 다시 확인한다.
+
+## 2026-10-11 대화 정리: 게임 구현과 CSS 단위
+
+이 절은 위의 초기 스타일링 단계 기록을 갱신한다. 앞서 «게임 로직은 보류 상태»와 대화상자 동작 미구현으로 기록한 내용은 이번 게임 구현으로 해결됐다. HTML의 예시 말은 유지하되 JavaScript가 실제 게임 상태에 맞춰 클래스와 disabled 상태를 갱신한다. 기존 기록은 당시의 검토 이력으로 남긴다.
+
+### README 기반 게임 구현
+
+`../src/js/main.js`에 다음 동작을 구현했다.
+
+- 시작 메뉴의 X/O 선택, 2인 대전과 CPU 대전. 선택하지 않은 마크는 상대에게 배정한다.
+- 첫 라운드는 X가 선공하며, 다음 라운드마다 시작 마크를 O/X로 교대한다.
+- 말 배치, 승리·무승부 판정, 점수 누적, 턴 아이콘·텍스트와 칸의 접근 가능한 이름 갱신.
+- 종료 대화상자의 Next round와 Quit. Quit은 시작 메뉴로 돌아간다.
+- Restart game 확인·취소. 현재 구현은 현재 라운드를 비우고 해당 라운드의 선공과 누적 점수를 유지한다.
+- CPU 턴에는 사용자 입력을 차단하고, 재시작 확인 중에는 CPU 예약 동작을 중지한다. 취소하면 재개한다.
+- minimax로 최적 수를 선택하는 CPU.
+- localStorage의 `tic-tac-toe-v1` 키로 게임을 저장하고 새로고침 시 복원한다. 접근 불가능하거나 잘못된 저장 데이터는 게임 실행을 막지 않는다.
+- 초기 HTML의 예시 대화상자 open 상태가 시작 메뉴를 가리지 않도록 초기화 시 대화상자를 닫는다.
+
+### 선택 마크 안내
+
+첫 라운드의 X 선공 규칙은 선택에 따라 바뀌지 않는다. 선택 결과를 명확히 알리기 위해 `.c-new-game__hint`를 갱신한다.
+
+| 선택 | 안내 문구 |
+| --- | --- |
+| X | `You picked X. You go first.` |
+| O | `You picked O. X goes first.` |
+
+라디오의 change 이벤트와 초기화·저장 상태 복원에 안내 갱신을 연결했다. 안내에는 `aria-live="polite"`를 지정했다. 실제 스크린 리더의 알림은 별도로 검증해야 한다.
+
+### rem·em·px 선택 기준
+
+기준 문서: [SCSS 작성 가이드](scss-guide.md)의 9절.
+
+| 대상 | 단위 | 이유 |
+| --- | --- | --- |
+| 글꼴 크기 | rem | 루트 글꼴 크기에 맞춰 확대 |
+| 컴포넌트 내부 패딩·간격·일반 margin | rem | 루트 글꼴과 함께 공간 확보 |
+| 글자 옆 아이콘·아이콘 간격·자간 | em | 해당 요소의 글꼴 크기에 비례 |
+| 미디어 쿼리 분기점 | em | 브라우저 기본 글꼴 크기에 대응 |
+| 테두리·포커스 outline/offset·그림자·스크린 리더 전용 1px 영역 | px | 선과 효과의 두께 유지 |
+| 화면 가장자리 여백 | rem과 vw를 min()으로 조합 | 작은 화면에서 여백 확대를 제한 |
+
+`auto`, `0`, `%`, `fr`는 일괄 변환하지 않는다. 로고와 모서리 반경도 용도에 따라 선택하며, 모든 px가 오류인 것은 아니다.
+
+- rem 환산: **시안 px ÷ 16**. 16은 기본 외형을 맞추기 위한 환산 기준이며, 실제 rem 크기는 루트 글꼴에 따라 달라진다.
+- em 환산: **원하는 px 크기 ÷ 해당 요소의 글꼴 크기(px)**.
+- 실제 em 크기: **em 값 × 해당 요소의 글꼴 크기(px)**.
+- width·height·padding·margin·letter-spacing의 em은 그 요소 자신의 글꼴 기준이다. font-size의 em은 부모 글꼴 기준이다.
+- 미디어 쿼리의 em은 html의 font-size가 아닌 브라우저 기본 글꼴 기준이다.
+
+예: 글꼴 16px에서 20px 아이콘은 `20 / 16 = 1.25em`. 같은 1.25em은 글꼴 24px에서 30px, 글꼴 32px에서 40px이 된다.
+
+### rem 변경 확인과 주의 사항
+
+소스 검토에서 글꼴 토큰 여섯 개가 `2.5/1.5/1.25/1/0.875/0.75rem`으로 정확히 변경된 것을 확인했다. 버튼 패딩, 보드·점수 간격, 대화상자 간격과 버튼 flex-basis도 대부분 rem으로 변경됐다.
+
+- 후속 확인에서 결과 대화상자의 44px 패딩은 `2.75rem`, 동작 버튼 영역의 51px margin은 `3.1875rem`으로 변경된 것을 확인했다.
+- `margin-inline: 3.1875rem`은 작은 화면에서 글꼴을 키울 때 버튼의 사용 가능한 폭을 줄인다. 화면 폭 제한과 버튼 줄바꿈을 검증해야 한다. `min(3.1875rem, 6.4vw)`은 조정 후보이며 기본 외형도 달라지므로 그대로 치환하는 정답은 아니다.
+- 마크 선택기의 `padding-inline: 7.5px`은 이전 검토에서 남아 있었다. rem으로 변경하려면 `0.46875rem`이다. 완료 여부는 최신 소스에서 다시 확인한다.
+- 주석은 루트 글꼴 16px 기준 `0.75rem = 12px`, `1rem = 16px`로 맞춘다. 당시 점수 패딩과 대화상자 간격 주석에 잘못된 px 값이 남아 있었다.
+- breakpoint 맵의 768px/1024px는 유지한다. mq()가 이미 48em/64em으로 출력한다.
+
+### em 변경 제안과 후속 적용 상태
+
+아래는 기존 기본 외형을 유지하는 계산값이다. 제안 당시에는 코드 수정과 변경 후 브라우저 검증을 수행하지 않았다. 후속 커밋 준비 시 최신 소스에서 턴 아이콘 크기·간격, 결과 아이콘과 부모 글꼴, 기본·compact 버튼 자간에 아래 em 값이 적용된 것을 확인했다. 마크 선택기의 좌우 패딩도 0.4688rem으로 변경됐으며, 페이지 스타일은 src/scss/pages/_home.scss로 이동했다. 변경 후 브라우저 비교는 여전히 미검증이다. 초기 기록의 공통 `.l-icon`/cap 사용은 다른 선택지이며, 시안 크기를 유지하는 아래 em 지정과 동시에 적용할 필요는 없다.
+
+| 위치·속성 | 기준 글꼴 | 권장 em 값 |
+| --- | --- | --- |
+| `.c-turn-indicator__icon` 모바일 width/height 16px | 14px | `1.142857em` |
+| 같은 아이콘 모바일 간격 8px | 14px | `0.571429em` |
+| 같은 아이콘 태블릿 width/height 20px | 16px | `1.25em` |
+| 같은 아이콘 태블릿 간격 8px | 16px | `0.5em` |
+| `.c-button` 자간 1px | 20px | `0.05em` |
+| `%button-compact` 자간 1px | 16px | `0.0625em` |
+
+결과 아이콘은 옆 텍스트만 24px 글꼴을 지정하고 있으므로, 먼저 `.c-round-result__winner`에 `font-size: $text-preset-2`를 지정해야 한다. 그 조건에서 아이콘 30px 크기는 `1.25em`, 아이콘의 `--space` 24px 간격은 `1em`으로 바꿀 수 있다.
+
+버튼 패딩은 이미 rem이므로 em 변환은 선택 사항이다. 글꼴에 비례시키려면 기본 버튼의 위/아래/좌우 패딩을 `0.8em/1.3em/0.8em`으로 바꾸고, compact의 위·아래와 좌우 패딩은 `1em`으로 재정의한다. 재시작 버튼의 `padding-inline: 0`은 유지한다. compact의 좌우 재정의를 빠뜨리면 상속된 0.8em이 12.8px이 되어 기존 16px과 달라진다.
+
+글자가 없는 재시작 버튼 아이콘은 20px을 `1.25rem`으로 바꾸면 충분하다. 글꼴 자체, 보드 간격, 로고, 테두리·그림자는 em 변환 대상으로 보지 않는다.
+
+### 수행한 검증과 한계
+
+- **검증 완료 — 게임 구현 시점:** `npm run build`, `node --check src/js/main.js`, `git diff --check`.
+- **검증 완료 — Chrome 자동 동작 검사:** 승리·무승부·점수, 선공 교대, Space 입력, 재시작 확인·취소·Escape, Quit, 새로고침 복원, CPU 첫 수·일시 정지·재개, 잘못된 저장 데이터 처리. 페이지 런타임 오류 없음.
+- **검증 완료 — 화면 폭에 따른 상태 유지:** Chrome에서 320/375/767/768/1023/1024/1440px. 이는 게임 화면 표시 상태 확인이며 시각적 정확성·가로 넘침 통과를 의미하지 않는다.
+- **검증 완료 — CPU 로직:** X/O CPU와 X/O 선공 조합의 1,226개 종료 경로에서 CPU 패배 없음.
+- **검증 완료 — 선택 안내:** Chrome 375×812에서 초기 X, O 클릭, 키보드 X 선택, 저장된 O 선택과 안내 복원. 최신 JS를 기존 생성 HTML에 주입해 확인했으며 전체 빌드 재검증은 아니다.
+- **검증 완료 — rem 변경 검토 시점:** 정적 검토, `node -e "require('sass').compile('src/scss/style.scss')"`, `git diff --check`.
+- **미검증:** Firefox, 단위 변경 후 computed style 비교, 브라우저 기본 글꼴 32px, 텍스트 200% 확대, 디자인 대조, 전체 키보드 탐색·스크린 리더·Windows 고대비 검사.
+- **해당 없음:** `npm test`는 실패용 placeholder이므로 실제 테스트 통과 근거로 사용하지 않았다.
+
+검증 결과는 수행 당시 소스에 대한 기록이다. 후속 사용자 변경이나 em 적용까지 검증됐다고 해석하지 않는다. 가이드의 `npm run check:layout`은 다른 프로젝트에서 사용한 예시이며 이 저장소의 실행 가능 명령으로 단정하지 않는다. dist는 직접 수정하거나 삭제하지 않는다.
