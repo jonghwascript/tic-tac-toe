@@ -27,6 +27,10 @@ p {
   padding: 0;
 }
 
+.c-app {
+  margin-block: auto;
+}
+
 // ------------------------------------------
 // NEW GAME
 // ------------------------------------------
@@ -40,20 +44,17 @@ p {
   background-color: $slate-800;
 }
 
-.c-app {
-  margin-block: auto;
+.c-new-game__logo {
+  width: 72px;
+  height: 32px;
+  margin-inline: auto;
+}
 
-  .c-new-game__logo {
-    width: 72px;
-    height: 32px;
-  }
-
-  .c-new-game__title {
-    @include font-style($text-preset-4, 700, 125%);
-    color: $slate-300;
-    text-align: center;
-    text-transform: uppercase;
-  }
+.c-new-game__title {
+  @include font-style($text-preset-4, 700, 125%);
+  color: $slate-300;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .c-mark-picker {
@@ -76,20 +77,32 @@ p {
 // ------------------------------------------
 .c-game-board {
   --space: 4rem; //64px
+
+  @include mq('tablet') {
+    --space: 1.25rem; //20px;
+  }
+
+  .c-new-game__logo {
+    margin-inline: 0;
+  }
 }
 
 .c-game-board__header {
-  --space: 2.9375rem; //47px
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .c-new-game__logo {
+  justify-self: start;
   width: 4.375rem; //70px
   height: auto;
 }
 
 .c-turn-indicator {
-  align-items: center;
+  justify-self: center;
+
   padding: 0.6875rem 0.9688rem;
   background-color: $slate-800;
   border-radius: 6px;
@@ -123,6 +136,7 @@ p {
 }
 
 .c-button--icon-restart {
+  justify-self: end;
   width: clamp(2.5rem, calc(1.784rem + 3.053vw), 3.25rem); //40 ~ 52px
   height: clamp(2.5rem, calc(1.784rem + 3.053vw), 3.25rem);
 
@@ -326,7 +340,16 @@ p {
 .c-restart-dialog__actions {
   .c-button {
     min-width: 0;
-    flex: 1;
+
+    &--cancel {
+      flex: 0 1 139px;
+      min-inline-size: 0;
+    }
+
+    &--restart {
+      flex: 0 1 151px;
+      min-inline-size: 0;
+    }
   }
 }
 
