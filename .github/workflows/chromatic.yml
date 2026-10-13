@@ -28,4 +28,4 @@ jobs:
       - name: Publish Storybook
         run: npx --no-install chromatic --exit-zero-on-changes
         env:
-          CHROMATIC_PROJECT_TOKEN: ${{CHROMATIC_PROJECT_TOKEN}}
+          CHROMATIC_PROJECT_TOKEN: ${{secrets.CHROMATIC_PROJECT_TOKEN}}
