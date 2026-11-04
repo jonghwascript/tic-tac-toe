@@ -1,0 +1,41 @@
+@use '../abstracts' as *;
+
+
+.c-mark-picker {
+  --padding: 0.5rem; //8px
+  gap: 0;
+  border: 0;
+  padding-block: 0.5625rem; //9px
+  padding-inline: 0.4688rem; //7.5px
+  background-color: $slate-900;
+  border-radius: 10px;
+
+  .c-mark-picker__choice {
+    flex: 1;
+    max-inline-size: 100%;
+    color: $slate-300;
+    padding-block: 0.6956rem; //11.13px
+    background-color: transparent;
+    border-radius: 10px;
+    cursor: pointer;
+
+    &:has(.c-mark-picker__choice-input:checked) {
+      background-color: $slate-300;
+      color: $slate-900;
+      cursor: default;
+    }
+
+    .c-mark-picker__choice-icon {
+      margin-inline: auto;
+    }
+
+    &:not(:has(.c-mark-picker__choice-input:checked)):hover {
+      background-color: rgba($slate-300, 0.05);
+    }
+
+    &:has(.c-mark-picker__choice-input:focus-visible) {
+      outline: 3px solid $neutral-000;
+      outline-offset: 3px;
+    }
+  }
+}

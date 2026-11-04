@@ -1,0 +1,39 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color"
+    content="#1a2a33" />
+  <link rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="./images/favicon-32x32.png" />
+  <link rel="stylesheet"
+    href="./css/style.css" />
+  <title>Frontend Mentor | Tic Tac Toe</title>
+</head>
+
+<body>
+  <a class="c-skip-link"
+    href="#main-content">Skip to main content</a>
+  <main class="l-cover"
+    id="main-content">
+    <h1 class="u-sr-only">Tic Tac Toe</h1>
+    <div class="l-center c-container">
+      <div class="c-app l-stack">
+        <!-- New Game -->
+        @@include('./components/new-game.html')
+        <!-- Game Board -->
+        @@include('./components/game-board.html')
+        <!-- Dialog -->
+        @@include('./components/dialog.html')
+      </div>
+    </div>
+  </main>
+  <script src="./js/main.js" defer></script>
+</body>
+
+</html>
